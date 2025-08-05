@@ -1,0 +1,1070 @@
+{
+  "canonical_fields": [
+    {
+      "comment": "=== CASH FLOW STATEMENT FIELDS ===",
+      "fields": [
+        {
+          "code": 3001,
+          "name": "total_cash_from_operating_activities",
+          "display_name": "Total Cash From Operating Activities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3002,
+          "name": "total_cashflows_from_investing_activities",
+          "display_name": "Total Cashflows From Investing Activities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3003,
+          "name": "total_cash_from_financing_activities",
+          "display_name": "Total Cash From Financing Activities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3004,
+          "name": "capital_expenditures",
+          "display_name": "Capital Expenditures",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3005,
+          "name": "depreciation",
+          "display_name": "Depreciation",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3006,
+          "name": "net_borrowings",
+          "display_name": "Net Borrowings",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3007,
+          "name": "dividends_paid",
+          "display_name": "Dividends Paid",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3008,
+          "name": "repurchase_of_stock",
+          "display_name": "Repurchase Of Stock",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3009,
+          "name": "change_in_cash",
+          "display_name": "Change In Cash",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3010,
+          "name": "change_to_liabilities",
+          "display_name": "Change To Liabilities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3011,
+          "name": "change_to_operating_activities",
+          "display_name": "Change To Operating Activities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3012,
+          "name": "change_to_inventory",
+          "display_name": "Change To Inventory",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3013,
+          "name": "change_to_account_receivables",
+          "display_name": "Change To Account Receivables",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3014,
+          "name": "other_cashflows_from_investing_activities",
+          "display_name": "Other Cashflows From Investing Activities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3015,
+          "name": "other_cashflows_from_financing_activities",
+          "display_name": "Other Cashflows From Financing Activities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        },
+        {
+          "code": 3016,
+          "name": "change_to_netincome",
+          "display_name": "Change To Net Income",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "cash_flow"
+        }
+      ]
+    },
+    {
+      "comment": "=== INCOME STATEMENT FIELDS ===",
+      "fields": [
+        {
+          "code": 1001,
+          "name": "total_revenue",
+          "display_name": "Total Revenue",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1002,
+          "name": "cost_of_revenue",
+          "display_name": "Cost Of Revenue",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1003,
+          "name": "gross_profit",
+          "display_name": "Gross Profit",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1004,
+          "name": "operating_income",
+          "display_name": "Operating Income",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1005,
+          "name": "ebit",
+          "display_name": "EBIT",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1006,
+          "name": "income_before_tax",
+          "display_name": "Income Before Tax",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1007,
+          "name": "net_income",
+          "display_name": "Net Income",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1008,
+          "name": "income_tax_expense",
+          "display_name": "Income Tax Expense",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1009,
+          "name": "interest_expense",
+          "display_name": "Interest Expense",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1010,
+          "name": "selling_general_administrative",
+          "display_name": "Selling General Administrative",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1011,
+          "name": "research_development",
+          "display_name": "Research Development",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1012,
+          "name": "total_operating_expenses",
+          "display_name": "Total Operating Expenses",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1013,
+          "name": "other_operating_expenses",
+          "display_name": "Other Operating Expenses",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1014,
+          "name": "total_other_income_expense_net",
+          "display_name": "Total Other Income Expense Net",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1015,
+          "name": "extraordinary_items",
+          "display_name": "Extraordinary Items",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1016,
+          "name": "non_recurring",
+          "display_name": "Non Recurring",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1017,
+          "name": "other_items",
+          "display_name": "Other Items",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1018,
+          "name": "discontinued_operations",
+          "display_name": "Discontinued Operations",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1019,
+          "name": "net_income_from_continuing_ops",
+          "display_name": "Net Income From Continuing Ops",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1020,
+          "name": "net_income_applicable_to_common_shares",
+          "display_name": "Net Income Applicable To Common Shares",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        },
+        {
+          "code": 1021,
+          "name": "effect_of_accounting_charges",
+          "display_name": "Effect Of Accounting Charges",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "income"
+        }
+      ]
+    },
+    {
+      "comment": "=== BALANCE SHEET FIELDS ===",
+      "fields": [
+        {
+          "code": 2001,
+          "name": "total_assets",
+          "display_name": "Total Assets",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2002,
+          "name": "total_current_assets",
+          "display_name": "Total Current Assets",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2003,
+          "name": "cash",
+          "display_name": "Cash",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2004,
+          "name": "net_receivables",
+          "display_name": "Net Receivables",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2005,
+          "name": "inventory",
+          "display_name": "Inventory",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2006,
+          "name": "other_current_assets",
+          "display_name": "Other Current Assets",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2007,
+          "name": "property_plant_equipment",
+          "display_name": "Property Plant Equipment",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2008,
+          "name": "intangible_assets",
+          "display_name": "Intangible Assets",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2009,
+          "name": "good_will",
+          "display_name": "Good Will",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2010,
+          "name": "long_term_investments",
+          "display_name": "Long Term Investments",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2011,
+          "name": "other_assets",
+          "display_name": "Other Assets",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2012,
+          "name": "deferred_long_term_asset_charges",
+          "display_name": "Deferred Long Term Asset Charges",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2013,
+          "name": "net_tangible_assets",
+          "display_name": "Net Tangible Assets",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2014,
+          "name": "total_liab",
+          "display_name": "Total Liabilities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2015,
+          "name": "total_current_liabilities",
+          "display_name": "Total Current Liabilities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2016,
+          "name": "accounts_payable",
+          "display_name": "Accounts Payable",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2017,
+          "name": "other_current_liab",
+          "display_name": "Other Current Liabilities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2018,
+          "name": "short_long_term_debt",
+          "display_name": "Short Long Term Debt",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2019,
+          "name": "long_term_debt",
+          "display_name": "Long Term Debt",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2020,
+          "name": "other_liab",
+          "display_name": "Other Liabilities",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2021,
+          "name": "total_stockholder_equity",
+          "display_name": "Total Stockholder Equity",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2022,
+          "name": "common_stock",
+          "display_name": "Common Stock",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2023,
+          "name": "retained_earnings",
+          "display_name": "Retained Earnings",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2024,
+          "name": "treasury_stock",
+          "display_name": "Treasury Stock",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2025,
+          "name": "capital_surplus",
+          "display_name": "Capital Surplus",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2026,
+          "name": "other_stockholder_equity",
+          "display_name": "Other Stockholder Equity",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        },
+        {
+          "code": 2027,
+          "name": "minority_interest",
+          "display_name": "Minority Interest",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "balance_sheet"
+        }
+      ]
+    },
+    {
+      "comment": "=== MARKET DATA & SHARES ===",
+      "fields": [
+        {
+          "code": 4001,
+          "name": "shares_outstanding",
+          "display_name": "Shares Outstanding",
+          "type": "number",
+          "category": "market",
+          "is_computed": false,
+          "statement": "market_data"
+        },
+        {
+          "code": 4002,
+          "name": "avg_month_price",
+          "display_name": "Average Monthly Price",
+          "type": "currency",
+          "category": "market",
+          "is_computed": false,
+          "statement": "market_data"
+        },
+        {
+          "code": 4003,
+          "name": "revenue_earnings",
+          "display_name": "Revenue (Earnings)",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "earnings"
+        },
+        {
+          "code": 4004,
+          "name": "earnings",
+          "display_name": "Earnings",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "statement": "earnings"
+        }
+      ]
+    },
+    {
+      "comment": "=== COMPUTED BASIC FIELDS ===",
+      "fields": [
+        {
+          "code": 5001,
+          "name": "working_capital",
+          "display_name": "Working Capital",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "subtract",
+            "args": [
+              {"field": "total_current_assets"},
+              {"field": "total_current_liabilities"}
+            ]
+          },
+          "description": "Total Current Assets - Total Current Liabilities"
+        }
+      ]
+    },
+    {
+      "comment": "=== ENTERPRISE VALUE METRICS ===",
+      "fields": [
+        {
+          "code": 6001,
+          "name": "ebitda",
+          "display_name": "EBITDA",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "add",
+            "args": [
+              {"field": "ebit"},
+              {"field": "depreciation"}
+            ]
+          },
+          "description": "EBIT + Depreciation"
+        },
+        {
+          "code": 6002,
+          "name": "ebitda_growth",
+          "display_name": "EBITDA Growth",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "Year-over-year EBITDA growth rate (log)"
+        },
+        {
+          "code": 6003,
+          "name": "total_debt",
+          "display_name": "Total Debt",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "add",
+            "args": [
+              {"field": "long_term_debt"},
+              {"field": "short_long_term_debt"}
+            ]
+          },
+          "description": "Long Term Debt + Short Term Debt"
+        },
+        {
+          "code": 6004,
+          "name": "debt_ratio",
+          "display_name": "Debt Ratio",
+          "type": "ratio",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "total_debt"},
+              {"field": "total_assets"}
+            ]
+          },
+          "description": "Total Debt / Total Assets"
+        },
+        {
+          "code": 6005,
+          "name": "excess_cash",
+          "display_name": "Excess Cash",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "Cash above working capital requirements"
+        },
+        {
+          "code": 6006,
+          "name": "market_cap",
+          "display_name": "Market Capitalization",
+          "type": "currency",
+          "category": "market",
+          "is_computed": true,
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {"field": "shares_outstanding"},
+              {"field": "avg_month_price"}
+            ]
+          },
+          "description": "Shares Outstanding × Share Price"
+        },
+        {
+          "code": 6007,
+          "name": "earnings_per_share",
+          "display_name": "Earnings Per Share",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "net_income"},
+              {"field": "shares_outstanding"}
+            ]
+          },
+          "description": "Net Income / Shares Outstanding"
+        },
+        {
+          "code": 6008,
+          "name": "price_to_earnings",
+          "display_name": "Price to Earnings Ratio",
+          "type": "ratio",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "avg_month_price"},
+              {"field": "earnings_per_share"}
+            ]
+          },
+          "description": "Share Price / Earnings Per Share"
+        },
+        {
+          "code": 6009,
+          "name": "cost_of_debt",
+          "display_name": "Cost of Debt",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"op": "multiply", "args": [{"field": "interest_expense"}, {"value": -1}]},
+              {"field": "total_debt"}
+            ]
+          },
+          "description": "Interest Expense / Total Debt"
+        },
+        {
+          "code": 6010,
+          "name": "leverage",
+          "display_name": "Leverage",
+          "type": "ratio",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "total_assets"},
+              {"op": "subtract", "args": [{"field": "total_assets"}, {"field": "total_liab"}]}
+            ]
+          },
+          "description": "Total Assets / (Total Assets - Total Liabilities)"
+        },
+        {
+          "code": 6011,
+          "name": "enterprise_value",
+          "display_name": "Enterprise Value",
+          "type": "currency",
+          "category": "market",
+          "is_computed": true,
+          "formula": {
+            "op": "subtract",
+            "args": [
+              {"op": "add", "args": [{"field": "market_cap"}, {"field": "total_debt"}]},
+              {"field": "excess_cash"}
+            ]
+          },
+          "description": "Market Cap + Total Debt - Excess Cash"
+        },
+        {
+          "code": 6012,
+          "name": "ev_ebitda",
+          "display_name": "EV/EBITDA",
+          "type": "ratio",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "enterprise_value"},
+              {"field": "ebitda"}
+            ]
+          },
+          "description": "Enterprise Value / EBITDA"
+        },
+        {
+          "code": 6013,
+          "name": "net_debt_ebitda",
+          "display_name": "Net Debt/EBITDA",
+          "type": "ratio",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "total_debt"},
+              {"field": "ebitda"}
+            ]
+          },
+          "description": "Total Debt / EBITDA"
+        }
+      ]
+    },
+    {
+      "comment": "=== CASH FLOW ANALYSIS METRICS ===",
+      "fields": [
+        {
+          "code": 7001,
+          "name": "cfo",
+          "display_name": "Cash Flow from Operations",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": false,
+          "description": "Alias for Total Cash From Operating Activities",
+          "source_field": "total_cash_from_operating_activities"
+        },
+        {
+          "code": 7002,
+          "name": "cfo_change",
+          "display_name": "CFO Change",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "Year-over-year change in Cash Flow from Operations (log)"
+        },
+        {
+          "code": 7003,
+          "name": "capex",
+          "display_name": "CAPEX",
+          "type": "currency",
+          "category": "fundamental",
+          "is_computed": true,
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {"field": "capital_expenditures"},
+              {"value": -1}
+            ]
+          },
+          "description": "Capital Expenditures (positive value)"
+        },
+        {
+          "code": 7004,
+          "name": "capex_change",
+          "display_name": "CAPEX Change",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "Year-over-year change in CAPEX (log)"
+        },
+        {
+          "code": 7005,
+          "name": "capex_to_cfo_ratio",
+          "display_name": "CAPEX to CFO Ratio",
+          "type": "ratio",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "CAPEX Change / CFO Change"
+        },
+        {
+          "code": 7006,
+          "name": "change_in_wc",
+          "display_name": "Change in Working Capital",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "Year-over-year change in Working Capital"
+        },
+        {
+          "code": 7007,
+          "name": "fcfe",
+          "display_name": "Free Cash Flow to Equity",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "add",
+            "args": [
+              {"op": "subtract", "args": [{"field": "cfo"}, {"field": "capex"}]},
+              {"field": "net_borrowings"}
+            ]
+          },
+          "description": "CFO - CAPEX + Net Borrowings"
+        },
+        {
+          "code": 7008,
+          "name": "owners_earnings",
+          "display_name": "Owner's Earnings",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "Alias for Free Cash Flow to Equity",
+          "source_field": "fcfe"
+        },
+        {
+          "code": 7009,
+          "name": "shares_change",
+          "display_name": "Shares Change",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "description": "Year-over-year change in shares outstanding (log)"
+        },
+        {
+          "code": 7010,
+          "name": "fcfe_per_share",
+          "display_name": "FCFE Per Share",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "fcfe"},
+              {"field": "shares_outstanding"}
+            ]
+          },
+          "description": "Free Cash Flow to Equity / Shares Outstanding"
+        },
+        {
+          "code": 7011,
+          "name": "fcfe_yield",
+          "display_name": "FCFE Yield",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "fcfe_per_share"},
+              {"field": "avg_month_price"}
+            ]
+          },
+          "description": "FCFE Per Share / Share Price"
+        },
+        {
+          "code": 7012,
+          "name": "interest_coverage_ratio",
+          "display_name": "Interest Coverage Ratio",
+          "type": "ratio",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "ebit"},
+              {"op": "multiply", "args": [{"field": "interest_expense"}, {"value": -1}]}
+            ]
+          },
+          "description": "EBIT / Interest Expense"
+        },
+        {
+          "code": 7013,
+          "name": "nopat",
+          "display_name": "NOPAT",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {"field": "total_cash_from_operating_activities"},
+              {"value": 0.65}
+            ]
+          },
+          "description": "Net Operating Profit After Tax (CFO × (1-0.35))"
+        },
+        {
+          "code": 7014,
+          "name": "invested_capital",
+          "display_name": "Invested Capital",
+          "type": "currency",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "add",
+            "args": [
+              {"field": "working_capital"},
+              {"op": "add", "args": [{"field": "property_plant_equipment"}, {"field": "intangible_assets"}]}
+            ]
+          },
+          "description": "Working Capital + PPE + Intangible Assets"
+        },
+        {
+          "code": 7015,
+          "name": "roic",
+          "display_name": "Return on Invested Capital",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "nopat"},
+              {"field": "invested_capital"}
+            ]
+          },
+          "description": "NOPAT / Invested Capital"
+        },
+        {
+          "code": 7016,
+          "name": "roe",
+          "display_name": "Return on Equity",
+          "type": "percentage",
+          "category": "ratio",
+          "is_computed": true,
+          "formula": {
+            "op": "divide",
+            "args": [
+              {"field": "net_income"},
+              {"op": "subtract", "args": [{"field": "total_assets"}, {"field": "total_liab"}]}
+            ]
+          },
+          "description": "Net Income / (Total Assets - Total Liabilities)"
+        }
+      ]
+    }
+  ]
+}

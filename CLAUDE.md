@@ -133,7 +133,27 @@ docker-compose up frontend
 ```
 
 ### Database Management
-The system automatically creates tables on startup. Initial data (canonical fields, providers, industries) is populated via `init.sql`.
+
+The system uses PostgreSQL with SQLAlchemy ORM. Database initialization involves:
+
+1. **Start PostgreSQL**: `docker-compose up -d db`
+2. **Initialize Canonical Fields**: Run the canonical fields script to populate 98 financial statement items:
+   ```bash
+   python init_canonical_fields.py "postgresql://postgres:postgres@localhost:5433/equity_valuation"
+   ```
+3. **Additional Setup**: Industries and providers are populated via `init.sql`
+
+**Canonical Fields Database**:
+- 98 financial statement fields from Yahoo Finance API
+- Organized into categories: Cash Flow (16), Income Statement (21), Balance Sheet (27), Market Data (4), Computed Ratios (30)
+- Includes both raw fields and computed metrics (EBITDA, EV/EBITDA, ROIC, ROE, etc.)
+- Supports JSON-based formula definitions for computed fields
+- Source: `canonical_fields.json` with full field mappings
+
+**Database Scripts**:
+- `init_canonical_fields.py` - Populates canonical fields table
+- `canonical_fields.json` - Complete financial field definitions
+- `init.sql` - Additional database initialization
 
 ## API Endpoints
 
