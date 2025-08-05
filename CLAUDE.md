@@ -38,6 +38,26 @@ This is a modular equity valuation system built with FastAPI and designed for se
 │   │   ├── formula_evaluator.py     # Data transformation service
 │   │   └── financial_data_service.py # Yahoo Finance integration
 │   └── schemas/               # Pydantic response models
+├── frontend/                  # React TypeScript application
+│   ├── public/                # Static assets
+│   ├── src/
+│   │   ├── components/        # Reusable UI components
+│   │   │   ├── Layout.tsx     # Main application layout
+│   │   │   └── ProtectedRoute.tsx # Route protection wrapper
+│   │   ├── contexts/          # React context providers
+│   │   │   └── AuthContext.tsx # Authentication state management
+│   │   ├── pages/             # Application pages/routes
+│   │   │   ├── Login.tsx      # Authentication page
+│   │   │   ├── Dashboard.tsx  # Main dashboard
+│   │   │   ├── Valuations.tsx # Company valuations view
+│   │   │   ├── Providers.tsx  # Data provider management (admin)
+│   │   │   └── Transformations.tsx # Field mapping UI (admin)
+│   │   ├── services/          # API service layer
+│   │   │   └── auth.ts        # Authentication API calls
+│   │   └── App.tsx            # Main application component
+│   ├── package.json           # NPM dependencies and scripts
+│   ├── tailwind.config.js     # TailwindCSS configuration
+│   └── Dockerfile             # Frontend container definition
 └── legacy/                    # Legacy files (kept for reference)
     ├── FinancialDataDef.py    # Original financial analysis logic
     ├── YahooDataParser.py     # Original price data parser
@@ -47,10 +67,11 @@ This is a modular equity valuation system built with FastAPI and designed for se
 ## Tech Stack
 
 - **Backend**: FastAPI (async Python web framework)
+- **Frontend**: React 18 with TypeScript and TailwindCSS
 - **Database**: PostgreSQL with SQLAlchemy ORM
 - **Authentication**: JWT tokens with bcrypt password hashing
 - **Data Sources**: Yahoo Finance (yfinance library)
-- **Development**: Uvicorn ASGI server with hot reload
+- **Development**: Uvicorn ASGI server + React dev server with hot reload
 - **Deployment**: Docker Compose with NGINX reverse proxy
 
 ## Key Features
@@ -87,13 +108,28 @@ python start.py
 uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-### Docker Development
+### Frontend Development
 ```bash
-# Start all services (PostgreSQL + FastAPI + NGINX)
+# Install dependencies
+cd frontend && npm install
+
+# Start React development server
+npm start
+
+# Build for production
+npm run build
+```
+
+### Full Stack Development (Docker)
+```bash
+# Start all services (PostgreSQL + FastAPI + React + NGINX)
 docker-compose up --build
 
-# Backend only (for development)
+# Backend only (for API development)
 docker-compose up db backend
+
+# Frontend only (for UI development)
+docker-compose up frontend
 ```
 
 ### Database Management
