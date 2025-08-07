@@ -18,6 +18,7 @@ interface Provider {
 
 interface FieldMapping {
   id?: string;
+  canonical_id?: number;
   raw_field_name: string;
   transform_expression?: any;
   company_id?: string;
@@ -35,13 +36,23 @@ const Transformations: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [mappingFilter, setMappingFilter] = useState<string>('all'); // 'all', 'mapped', 'unmapped'
+  const [providerMappings, setProviderMappings] = useState<FieldMapping[]>([]);
 
 
-  // Filter fields based on search and category
+  // Filter fields based on search, category, and mapping status
   const filteredFields = canonicalFields.filter(field => {
     const matchesSearch = field.display_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          field.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || field.category === selectedCategory;
+    
+    // Check mapping status if filter is applied
+    if (mappingFilter !== 'all' && selectedProvider) {
+      const hasMapping = providerMappings.some(mapping => mapping.canonical_id === field.id);
+      const matchesMapping = mappingFilter === 'mapped' ? hasMapping : !hasMapping;
+      return matchesSearch && matchesCategory && matchesMapping;
+    }
+    
     return matchesSearch && matchesCategory;
   });
 
@@ -61,6 +72,7 @@ const Transformations: React.FC = () => {
   useEffect(() => {
     if (selectedProvider) {
       loadAvailableRawFields(selectedProvider);
+      loadProviderMappings(selectedProvider);
     }
   }, [selectedProvider]);
 
@@ -121,6 +133,24 @@ const Transformations: React.FC = () => {
     }
   };
 
+  const loadProviderMappings = async (providerId: number) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/transform/mappings?provider_id=${providerId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setProviderMappings(data);
+      }
+    } catch (error) {
+      console.error('Error loading provider mappings:', error);
+      setProviderMappings([]);
+    }
+  };
+
   const loadFieldMapping = async (providerId: number, canonicalId: number) => {
     try {
       const token = localStorage.getItem('token');
@@ -168,6 +198,10 @@ const Transformations: React.FC = () => {
       if (response.ok) {
         const updatedMapping = await response.json();
         setCurrentMapping(updatedMapping);
+        // Refresh provider mappings to update the filtering
+        if (selectedProvider) {
+          loadProviderMappings(selectedProvider);
+        }
         // Show success message or notification
       }
     } catch (error) {
@@ -238,6 +272,17 @@ const Transformations: React.FC = () => {
                 </option>
               ))}
             </select>
+            
+            <select
+              value={mappingFilter}
+              onChange={(e) => setMappingFilter(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={!selectedProvider}
+            >
+              <option value="all">All Fields</option>
+              <option value="mapped">Fields with Mappings</option>
+              <option value="unmapped">Fields without Mappings</option>
+            </select>
           </div>
         </div>
 
@@ -253,7 +298,14 @@ const Transformations: React.FC = () => {
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-medium text-gray-900">{field.display_name}</h3>
+                  <div className="flex items-center space-x-2 mb-1">
+                    <h3 className="font-medium text-gray-900">{field.display_name}</h3>
+                    {selectedProvider && providerMappings.some(mapping => mapping.canonical_id === field.id) && (
+                      <span className="inline-flex px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                        Mapped
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm text-gray-500">{field.name}</p>
                   <div className="mt-1 flex items-center space-x-2">
                     <span className={`inline-flex px-2 py-1 text-xs rounded-full ${
@@ -403,23 +455,47 @@ const Transformations: React.FC = () => {
               <h3 className="font-medium text-gray-900 mb-3">Available Raw Fields from Provider</h3>
               <div className="bg-gray-50 p-4 rounded-lg max-h-48 overflow-y-auto">
                 <div className="grid grid-cols-2 gap-2">
-                  {availableRawFields.map(fieldName => (
-                    <button
-                      key={fieldName}
-                      onClick={() => setCurrentMapping(prev => ({
-                        raw_field_name: fieldName,
-                        transform_expression: prev?.transform_expression,
-                        id: prev?.id,
-                        company_id: prev?.company_id,
-                        start_date: prev?.start_date,
-                        end_date: prev?.end_date
-                      }))}
-                      className="text-left text-xs px-2 py-1 bg-white rounded border hover:bg-blue-50 hover:border-blue-300 text-gray-700 font-mono"
-                      title="Click to use this field name"
-                    >
-                      {fieldName}
-                    </button>
-                  ))}
+                  {availableRawFields.map(fieldName => {
+                    const hasMapping = providerMappings.some(mapping => mapping.raw_field_name === fieldName);
+                    return (
+                      <button
+                        key={fieldName}
+                        onClick={() => {
+                          // Set the raw field name in the mapping
+                          setCurrentMapping(prev => ({
+                            raw_field_name: fieldName,
+                            transform_expression: prev?.transform_expression,
+                            id: prev?.id,
+                            company_id: prev?.company_id,
+                            start_date: prev?.start_date,
+                            end_date: prev?.end_date
+                          }));
+                          
+                          // Auto-select matching canonical field if there's a mapping
+                          if (selectedProvider) {
+                            const matchingMapping = providerMappings.find(mapping => mapping.raw_field_name === fieldName);
+                            if (matchingMapping) {
+                              const matchingField = canonicalFields.find(field => field.id === matchingMapping.canonical_id);
+                              if (matchingField) {
+                                setSelectedField(matchingField);
+                              }
+                            }
+                          }
+                        }}
+                        className={`text-left text-xs px-2 py-1 rounded border font-mono ${
+                          hasMapping 
+                            ? 'bg-green-50 border-green-300 text-green-700 hover:bg-green-100' 
+                            : 'bg-white border-gray-300 text-gray-700 hover:bg-blue-50 hover:border-blue-300'
+                        }`}
+                        title={hasMapping ? "This field has a mapping - click to view" : "Click to use this field name"}
+                      >
+                        <span className="flex items-center justify-between">
+                          {fieldName}
+                          {hasMapping && <span className="ml-1 text-green-600">✓</span>}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
                   Click any field name to use it in your mapping
