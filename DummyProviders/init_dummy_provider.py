@@ -47,10 +47,7 @@ def init_dummy_provider(database_url: str):
         
         if not dummy_provider:
             dummy_provider = Provider(
-                name="FinStack Global (Test)",
-                description="Dummy test provider based on MockupData01.json - REMOVE IN PRODUCTION",
-                api_endpoint="http://test.finstack.com/api",
-                is_active=True
+                name="FinStack Global (Test)"
             )
             db.add(dummy_provider)
             db.commit()
@@ -76,24 +73,23 @@ def init_dummy_provider(database_url: str):
         
         # Create test company based on mockup metadata
         test_company = db.query(Company).filter(
-            Company.symbol == mockup["metadata"]["ticker_symbol"]
+            Company.ticker == mockup["metadata"]["ticker_symbol"]
         ).first()
         
         if not test_company:
             test_company = Company(
-                symbol=mockup["metadata"]["ticker_symbol"],
+                ticker=mockup["metadata"]["ticker_symbol"],
                 name=mockup["metadata"]["entity_name"],
                 industry_id=tech_industry.id,
                 country=mockup["metadata"]["country"],
-                currency=mockup["metadata"]["currency_used"],
-                shares_outstanding=mockup["metadata"]["shares_outstanding"]
+                currency=mockup["metadata"]["currency_used"]
             )
             db.add(test_company)
             db.commit()
             db.refresh(test_company)
-            print(f"Created test company: {test_company.name} ({test_company.symbol})")
+            print(f"Created test company: {test_company.name} ({test_company.ticker})")
         else:
-            print(f"Test company already exists: {test_company.name} ({test_company.symbol})")
+            print(f"Test company already exists: {test_company.name} ({test_company.ticker})")
         
         # Process each report and create raw data entries
         for report in mockup["reports"]:
@@ -180,12 +176,12 @@ def main():
     try:
         provider_id = init_dummy_provider(database_url)
         print("-" * 50)
-        print(f"✅ Dummy provider initialization completed successfully!")
+        print("SUCCESS: Dummy provider initialization completed successfully!")
         print(f"Provider ID: {provider_id}")
-        print("\n⚠️  REMEMBER: This is test data - remove before production deployment")
+        print("\nWARNING: This is test data - remove before production deployment")
         
     except Exception as e:
-        print(f"❌ Error initializing dummy provider: {e}")
+        print(f"ERROR: Error initializing dummy provider: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":

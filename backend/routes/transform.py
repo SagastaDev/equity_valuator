@@ -140,8 +140,7 @@ async def download_mappings_backup(
     backup_data = {
         "provider": {
             "id": provider.id,
-            "name": provider.name,
-            "description": provider.description
+            "name": provider.name
         },
         "mappings": []
     }
