@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "source": "DataStream Financial",
+    "ticker_symbol": "INNV",
+    "entity_name": "Innovation Dynamics Corp.",
+    "country": "USA",
+    "currency_used": "USD",
+    "reporting_period": "Annual",
+    "shares_outstanding": 95000000
+  },
+  "reports": [
+    {
+      "fiscal_year": 2023,
+      "fiscal_month": 12,
+      "price_per_share": 98.33,
+      "statements": {
+        "income": {
+          "sales_net": 78000000,
+          "sales_total": 78000000,
+          "cost_goods_sold": 32000000,
+          "margin_gross": 46000000,
+          "expenses_admin": 12000000,
+          "expenses_sales": 8500000,
+          "profit_operating": 25500000,
+          "charges_interest": 1800000,
+          "earnings_pretax": 23700000,
+          "taxes_income": 5925000,
+          "earnings_net": 17775000,
+          "earnings_per_share": 1.87
+        },
+        "balance": {
+          "cash_cash_equiv": 15500000,
+          "receivables_trade": 9500000,
+          "stock_inventory": 6800000,
+          "assets_current_total": 34500000,
+          "equipment_net": 28000000,
+          "goodwill_intangibles": 7200000,
+          "assets_grand_total": 75000000,
+          "payables_trade": 8200000,
+          "debt_short_term": 2800000,
+          "liabilities_current_total": 14000000,
+          "debt_long_term": 18500000,
+          "liabilities_grand_total": 36000000,
+          "capital_stock": 750000,
+          "surplus_capital": 8500000,
+          "earnings_accumulated": 28000000,
+          "equity_stockholders": 37250000
+        },
+        "flows": {
+          "cash_operations": 21500000,
+          "cash_investments": -9200000,
+          "cash_financing": -3500000,
+          "investments_capital": -7500000,
+          "writeoffs_depreciation": 3800000,
+          "flow_free_cash": 14000000
+        }
+      }
+    },
+    {
+      "fiscal_year": 2022,
+      "fiscal_month": 12,
+      "price_per_share": 84.67,
+      "statements": {
+        "income": {
+          "sales_net": 71000000,
+          "cost_goods_sold": 30000000,
+          "margin_gross": 41000000,
+          "profit_operating": 22000000,
+          "earnings_net": 15800000
+        },
+        "balance": {
+          "cash_cash_equiv": 13800000,
+          "assets_current_total": 31000000,
+          "assets_grand_total": 68000000,
+          "liabilities_current_total": 12500000,
+          "liabilities_grand_total": 32000000,
+          "equity_stockholders": 34500000
+        },
+        "flows": {
+          "cash_operations": 19200000,
+          "cash_investments": -8500000,
+          "cash_financing": -2900000,
+          "flow_free_cash": 12000000
+        }
+      }
+    }
+  ]
+}

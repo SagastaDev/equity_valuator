@@ -3,9 +3,14 @@ Database initialization module for populating initial data.
 This module contains functions to populate initial data for providers and industries.
 """
 
+import os
+import json
+from pathlib import Path
 from sqlalchemy.orm import Session
 from backend.db.models.provider import Provider
 from backend.db.models.company import Industry
+from backend.db.models.field import CanonicalField, FieldCategory
+from backend.db.init_dummy_data import initialize_dummy_data
 
 
 def init_providers(db: Session) -> None:
@@ -49,6 +54,63 @@ def init_industries(db: Session) -> None:
         print(f"Added {added_count} new industries")
 
 
+def init_canonical_fields(db: Session) -> None:
+    """Initialize canonical fields from JSON file if they don't exist."""
+    existing_count = db.query(CanonicalField).count()
+    if existing_count > 0:
+        print(f"Canonical fields already exist ({existing_count} fields)")
+        return
+    
+    try:
+        # Load canonical fields from JSON file
+        json_file_path = Path(__file__).parent.parent.parent / "canonical_fields.json"
+        
+        if not json_file_path.exists():
+            print(f"Warning: canonical_fields.json not found at {json_file_path}")
+            return
+            
+        with open(json_file_path, 'r') as f:
+            data = json.load(f)
+        
+        # Extract all fields from sections
+        all_fields = []
+        for section in data['canonical_fields']:
+            if 'fields' in section:
+                all_fields.extend(section['fields'])
+        
+        # Map category strings to enums
+        category_map = {
+            'fundamental': FieldCategory.FUNDAMENTAL,
+            'market': FieldCategory.MARKET,
+            'ratio': FieldCategory.RATIO
+        }
+        
+        # Insert fields
+        inserted_count = 0
+        for field_data in all_fields:
+            try:
+                canonical_field = CanonicalField(
+                    code=field_data['code'],
+                    name=field_data['name'],
+                    display_name=field_data['display_name'],
+                    type=field_data['type'],
+                    category=category_map[field_data['category']],
+                    is_computed=field_data['is_computed']
+                )
+                db.add(canonical_field)
+                inserted_count += 1
+                
+            except Exception as e:
+                print(f"Error processing field {field_data.get('name', 'unknown')}: {e}")
+                continue
+        
+        print(f"Added {inserted_count} canonical fields")
+        
+    except Exception as e:
+        print(f"Error initializing canonical fields: {e}")
+        raise
+
+
 def initialize_database(db: Session) -> None:
     """Initialize all initial data."""
     print("Initializing database with default data...")
@@ -56,6 +118,12 @@ def initialize_database(db: Session) -> None:
     try:
         init_providers(db)
         init_industries(db)
+        init_canonical_fields(db)
+        
+        # Initialize dummy data for development (disabled in production)
+        enable_dummy = os.getenv("ENABLE_DUMMY_DATA", "true").lower() == "true"
+        initialize_dummy_data(db, enable_dummy_data=enable_dummy)
+        
         db.commit()
         print("Database initialization completed successfully")
     except Exception as e:

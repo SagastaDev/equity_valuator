@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "source": "MarketInsight Analytics",
+    "ticker_symbol": "SOFT",
+    "entity_name": "SoftwareDev Solutions Ltd.",
+    "country": "USA",
+    "currency_used": "USD",
+    "reporting_period": "Annual",
+    "shares_outstanding": 320000000
+  },
+  "reports": [
+    {
+      "fiscal_year": 2023,
+      "fiscal_month": 12,
+      "stock_price": 56.92,
+      "financials": {
+        "revenue_total": 145000000,
+        "cost_sales": 62000000,
+        "profit_gross": 83000000,
+        "expense_operating": 45000000,
+        "income_operating": 38000000,
+        "expense_interest": 4200000,
+        "income_pretax": 33800000,
+        "provision_tax": 8450000,
+        "income_net": 25350000,
+        "shares_weighted_avg": 320000000
+      },
+      "position": {
+        "cash_total": 22000000,
+        "receivables_net": 18500000,
+        "inventory_total": 14000000,
+        "assets_current": 58000000,
+        "property_net": 52000000,
+        "assets_intangible": 8500000,
+        "assets_total": 128000000,
+        "payables_accounts": 19000000,
+        "debt_current": 5500000,
+        "liabilities_current": 28000000,
+        "debt_longterm": 35000000,
+        "liabilities_total": 68000000,
+        "stock_common": 1200000,
+        "earnings_retained": 42000000,
+        "equity_total": 58000000
+      },
+      "cashflow": {
+        "cf_operating": 32000000,
+        "cf_investing": -15000000,
+        "cf_financing": -8500000,
+        "expenditures_capital": -12000000,
+        "amortization_depreciation": 6200000
+      }
+    },
+    {
+      "fiscal_year": 2022,
+      "fiscal_month": 12,
+      "stock_price": 48.75,
+      "financials": {
+        "revenue_total": 132000000,
+        "cost_sales": 58000000,
+        "profit_gross": 74000000,
+        "income_operating": 34000000,
+        "income_net": 22800000
+      },
+      "position": {
+        "cash_total": 20000000,
+        "assets_current": 52000000,
+        "assets_total": 118000000,
+        "liabilities_current": 25000000,
+        "liabilities_total": 62000000,
+        "equity_total": 54000000
+      },
+      "cashflow": {
+        "cf_operating": 28500000,
+        "cf_investing": -13500000,
+        "cf_financing": -7200000
+      }
+    }
+  ]
+}

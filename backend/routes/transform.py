@@ -60,6 +60,20 @@ async def update_mapping(
     db.refresh(db_mapping)
     return db_mapping
 
+@router.delete("/mappings/{mapping_id}")
+async def delete_mapping(
+    mapping_id: str,
+    db: Session = Depends(get_db),
+    admin_user: User = Depends(require_admin)
+):
+    db_mapping = db.query(MappedField).filter(MappedField.id == mapping_id).first()
+    if not db_mapping:
+        raise HTTPException(status_code=404, detail="Mapping not found")
+    
+    db.delete(db_mapping)
+    db.commit()
+    return {"message": "Mapping deleted successfully"}
+
 @router.get("/canonical-fields")
 async def get_canonical_fields(
     db: Session = Depends(get_db),

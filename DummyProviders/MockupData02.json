@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "source": "AlphaFinance Pro",
+    "ticker_symbol": "TECH",
+    "entity_name": "TechCorp Industries Inc.",
+    "country": "USA",
+    "currency_used": "USD",
+    "reporting_period": "Annual",
+    "shares_outstanding": 180000000
+  },
+  "reports": [
+    {
+      "fiscal_year": 2023,
+      "fiscal_month": 12,
+      "market_price": 142.78,
+      "income_statement": {
+        "revenues": 89000000,
+        "total_revenues": 89000000,
+        "cogs": 38000000,
+        "gross_margin": 51000000,
+        "sga_expenses": 15000000,
+        "operating_earnings": 28000000,
+        "ebitda": 32000000,
+        "interest_exp": 2100000,
+        "pretax_income": 25900000,
+        "tax_expense": 5180000,
+        "net_earnings": 20720000,
+        "net_earnings_available": 20500000,
+        "diluted_eps": 1.14,
+        "basic_eps": 1.16
+      },
+      "balance_sheet": {
+        "cash_and_equivalents": 18500000,
+        "accounts_rec": 12000000,
+        "inventories": 8500000,
+        "current_assets_total": 42000000,
+        "ppe_net": 38000000,
+        "goodwill_net": 6500000,
+        "intangibles_net": 2800000,
+        "assets_total": 95000000,
+        "accounts_pay": 11000000,
+        "current_debt": 3500000,
+        "current_liabilities_total": 18000000,
+        "long_term_debt_total": 22000000,
+        "liabilities_total": 45000000,
+        "common_shares": 900000,
+        "retained_earnings_total": 28500000,
+        "shareholders_equity": 48000000,
+        "tangible_book_value": 39200000
+      },
+      "cash_flow_statement": {
+        "operating_cash_flow": 25000000,
+        "investing_cash_flow": -8500000,
+        "financing_cash_flow": -4200000,
+        "capex": -6800000,
+        "depreciation_amortization": 4200000,
+        "free_cash_flow": 18200000
+      }
+    },
+    {
+      "fiscal_year": 2022,
+      "fiscal_month": 12,
+      "market_price": 125.43,
+      "income_statement": {
+        "revenues": 82000000,
+        "cogs": 36000000,
+        "gross_margin": 46000000,
+        "operating_earnings": 24000000,
+        "net_earnings": 18500000
+      },
+      "balance_sheet": {
+        "cash_and_equivalents": 16000000,
+        "current_assets_total": 38000000,
+        "assets_total": 88000000,
+        "current_liabilities_total": 16500000,
+        "liabilities_total": 42000000,
+        "shareholders_equity": 44000000
+      },
+      "cash_flow_statement": {
+        "operating_cash_flow": 22000000,
+        "investing_cash_flow": -7200000,
+        "financing_cash_flow": -3800000,
+        "free_cash_flow": 15200000
+      }
+    }
+  ]
+}
