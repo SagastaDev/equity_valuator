@@ -213,8 +213,8 @@ const Transformations: React.FC = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Left Panel - Canonical Fields */}
-      <div className="w-1/2 bg-white shadow-lg">
-        <div className="p-4 border-b border-gray-200">
+      <div className="w-1/2 bg-white shadow-lg flex flex-col border-r-2 border-gray-300">
+        <div className="p-4 border-b border-gray-200 bg-white">
           <h1 className="text-xl font-bold text-gray-900">Canonical Fields</h1>
           
           {/* Search and Filter */}
@@ -241,8 +241,8 @@ const Transformations: React.FC = () => {
           </div>
         </div>
 
-        {/* Fields List */}
-        <div className="flex-1 overflow-y-auto">
+        {/* Fields List - Scrollable */}
+        <div className="flex-1 overflow-y-auto bg-white">
           {filteredFields.map((field) => (
             <div
               key={field.id}
@@ -278,8 +278,8 @@ const Transformations: React.FC = () => {
       </div>
 
       {/* Right Panel - Field Mapping */}
-      <div className="w-1/2 bg-white shadow-lg border-l border-gray-200">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+      <div className="w-1/2 bg-gray-50 flex flex-col">
+        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-white shadow-sm">
           <h2 className="text-xl font-bold text-gray-900">Field Mapping</h2>
           <div className="flex space-x-2">
             <button
@@ -299,7 +299,7 @@ const Transformations: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-4 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-white">
           {/* Provider Selection */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
