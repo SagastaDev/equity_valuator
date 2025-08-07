@@ -236,6 +236,33 @@ const Transformations: React.FC = () => {
     }
   };
 
+  const deleteMapping = async (mappingId: string) => {
+    if (!window.confirm('Are you sure you want to delete this mapping?')) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/transform/mappings/${mappingId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        // Refresh provider mappings
+        if (selectedProvider) {
+          loadProviderMappings(selectedProvider);
+        }
+        // Clear current mapping if it was the one being deleted
+        if (currentMapping?.id === mappingId) {
+          setCurrentMapping(null);
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting mapping:', error);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -341,6 +368,17 @@ const Transformations: React.FC = () => {
             >
               Download Backup
             </button>
+            {currentMapping && (
+              <button
+                onClick={() => {
+                  setCurrentMapping(null);
+                  setSelectedField(null);
+                }}
+                className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
+              >
+                Clear
+              </button>
+            )}
             <button
               onClick={saveMapping}
               disabled={!selectedField || !currentMapping?.raw_field_name}
@@ -449,6 +487,87 @@ const Transformations: React.FC = () => {
             </div>
           )}
 
+          {/* Existing Mappings Overview */}
+          {selectedProvider && providerMappings.length > 0 && (
+            <div className="mt-6">
+              <h3 className="font-medium text-gray-900 mb-3">Existing Field Mappings ({providerMappings.length})</h3>
+              <div className="bg-blue-50 p-4 rounded-lg max-h-64 overflow-y-auto">
+                <div className="space-y-2">
+                  {providerMappings.map(mapping => {
+                    const canonicalField = canonicalFields.find(field => field.id === mapping.canonical_id);
+                    return (
+                      <button
+                        key={mapping.id || `${mapping.raw_field_name}-${mapping.canonical_id}`}
+                        onClick={() => {
+                          // Auto-select the canonical field and load the mapping
+                          if (canonicalField) {
+                            setSelectedField(canonicalField);
+                            setCurrentMapping({
+                              id: mapping.id,
+                              raw_field_name: mapping.raw_field_name,
+                              transform_expression: mapping.transform_expression,
+                              company_id: mapping.company_id,
+                              start_date: mapping.start_date,
+                              end_date: mapping.end_date
+                            });
+                          }
+                        }}
+                        className="w-full text-left p-3 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-colors group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <div className="text-sm font-medium text-gray-900">
+                              {mapping.raw_field_name}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              → {canonicalField?.display_name || canonicalField?.name || 'Unknown Field'}
+                            </div>
+                            {canonicalField?.category && (
+                              <span className={`inline-flex px-2 py-1 text-xs rounded-full mt-1 ${
+                                canonicalField.category === 'fundamental' ? 'bg-green-100 text-green-800' :
+                                canonicalField.category === 'market' ? 'bg-blue-100 text-blue-800' :
+                                'bg-purple-100 text-purple-800'
+                              }`}>
+                                {canonicalField.category}
+                              </span>
+                            )}
+                          </div>
+                          <div className="ml-2 flex items-center space-x-2">
+                            {mapping.transform_expression ? (
+                              <span className="inline-flex px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">
+                                Formula
+                              </span>
+                            ) : (
+                              <span className="inline-flex px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
+                                Direct
+                              </span>
+                            )}
+                            {mapping.id && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (mapping.id) {
+                                    deleteMapping(mapping.id);
+                                  }
+                                }}
+                                className="opacity-0 group-hover:opacity-100 p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-all"
+                                title="Delete mapping"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Available Raw Fields Helper */}
           {selectedProvider && availableRawFields.length > 0 && (
             <div className="mt-6">
@@ -498,8 +617,21 @@ const Transformations: React.FC = () => {
                   })}
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
-                  Click any field name to use it in your mapping
+                  Click any field name to use it in your mapping. Green fields already have mappings.
                 </p>
+              </div>
+            </div>
+          )}
+
+          {/* No Mappings State */}
+          {selectedProvider && providerMappings.length === 0 && (
+            <div className="mt-6">
+              <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg">
+                <svg className="mx-auto h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <p className="font-medium">No field mappings found</p>
+                <p className="text-sm">Select a canonical field and create your first mapping</p>
               </div>
             </div>
           )}
@@ -507,7 +639,11 @@ const Transformations: React.FC = () => {
           {/* No Selection State */}
           {!selectedField && (
             <div className="text-center py-12 text-gray-500">
-              <p>Select a canonical field from the left panel to configure its mapping</p>
+              <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="font-medium">Select a canonical field</p>
+              <p className="text-sm">Choose a field from the left panel to configure its mapping</p>
             </div>
           )}
         </div>

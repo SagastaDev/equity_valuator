@@ -17,6 +17,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY backend/ ./backend/
 
+# Copy canonical fields data
+COPY canonical_fields.json ./
+
+# Copy dummy data for development (comment out for production)
+COPY DummyProviders/ ./DummyProviders/
+
 # Create non-root user
 RUN useradd --create-home --shell /bin/bash app
 USER app

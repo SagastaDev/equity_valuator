@@ -2,6 +2,47 @@
 
 This directory contains test data and utilities for field mapping functionality development. **All files in this directory should be removed before production deployment.**
 
+## 🚨 IMPORTANT: AUTOMATED INITIALIZATION SYSTEM 🚨
+
+**AS OF 2024, THIS DIRECTORY IS NOW AUTOMATICALLY PROCESSED BY THE BACKEND ON STARTUP.**
+
+The individual Python scripts in this directory are **LEGACY** and no longer used. The system has been simplified:
+
+- **Initialization Location**: `backend/db/init_dummy_data.py` handles all dummy data setup
+- **Automatic Execution**: Runs automatically when backend starts (Docker or local)
+- **Environment Control**: Set `ENABLE_DUMMY_DATA=false` to disable in production
+- **Docker Integration**: This directory is copied into the container during build
+
+### For Future AI Maintainers
+
+**CRITICAL DATABASE MODEL REQUIREMENTS** - These were discovered through debugging:
+
+1. **RawDataEntry Model Requirements**:
+   - Uses `fiscal_period` (Date), NOT `period` (String)
+   - Uses `period_type` (PeriodType enum), NOT a string period
+   - Uses `value` (JSONB) and `value_type` (ValueType enum), NOT `raw_field_value`
+   - All fields are required - no nullable fields
+
+2. **Company Model Requirements**:
+   - `country` and `currency` fields are required (NOT NULL)
+   - Uses UUID primary key, not integer
+   - Must provide both country="US" and currency="USD" for test companies
+
+3. **Provider Model**:
+   - Only has `id` and `name` fields
+   - No `description`, `api_endpoint`, or `api_key` fields exist
+
+4. **MappedField Model**:
+   - Uses `raw_field_name`, NOT `provider_field_name`  
+   - Uses `canonical_id`, NOT `canonical_field_id`
+
+**DO NOT** modify individual scripts in this directory. **DO** modify `backend/db/init_dummy_data.py` instead.
+
+**DOCKERFILE REQUIREMENT**: DummyProviders directory must be copied into container:
+```dockerfile
+COPY DummyProviders/ ./DummyProviders/
+```
+
 ## Files
 
 ### MockupData01.json
@@ -46,29 +87,28 @@ Sample financial data representing "Innovation Dynamics Corp." from DataStream F
 
 ## Usage
 
-### Initialize Dummy Data
+### ✅ CURRENT SYSTEM (Automated)
+
+**No manual initialization needed!** The system automatically initializes dummy data when the backend starts.
 
 ```bash
-# Step 1: Initialize all dummy providers at once (recommended)
+# Development - dummy data loads automatically
+docker-compose up backend db
+
+# Production - disable dummy data
+ENABLE_DUMMY_DATA=false docker-compose up backend db
+```
+
+### ❌ LEGACY SYSTEM (Deprecated - DO NOT USE)
+
+The following commands are **OBSOLETE** and should not be used:
+
+```bash
+# ❌ DEPRECATED - These scripts are no longer executed
 python DummyProviders/init_all_dummy_providers.py
-
-# Step 2: Create field mappings to canonical fields
 python DummyProviders/init_all_mappings.py
-
-# Or initialize individual providers and mappings
-python DummyProviders/init_dummy_provider.py      # FinStack Global
-python DummyProviders/init_dummy_provider02.py    # AlphaFinance Pro
-python DummyProviders/init_dummy_provider03.py    # MarketInsight Analytics
-python DummyProviders/init_dummy_provider04.py    # DataStream Financial
-
-# Then create individual mappings
-python DummyProviders/init_mappings_alphafin.py
-python DummyProviders/init_mappings_marketinsight.py
-python DummyProviders/init_mappings_datastream.py
-
-# With PostgreSQL (Docker) - append database URL to any command
-python DummyProviders/init_all_dummy_providers.py "postgresql://postgres:postgres@localhost:5433/equity_valuation"
-python DummyProviders/init_all_mappings.py "postgresql://postgres:postgres@localhost:5433/equity_valuation"
+python DummyProviders/init_dummy_provider.py
+# ... etc (all individual scripts are deprecated)
 ```
 
 ### What Gets Created
@@ -135,8 +175,16 @@ The dummy providers enable comprehensive testing of:
 
 To remove all test data before production:
 
+### Automated Method (Recommended)
+```bash
+# Set environment variable to disable dummy data initialization
+ENABLE_DUMMY_DATA=false docker-compose up backend db
+```
+
+### Manual Cleanup (if needed)
 1. Delete this entire `DummyProviders/` directory
-2. Remove all dummy providers from database:
+2. Remove line from Dockerfile: `COPY DummyProviders/ ./DummyProviders/`
+3. Remove all dummy providers from database:
    ```sql
    DELETE FROM raw_data_entries WHERE provider_id IN (SELECT id FROM providers WHERE name LIKE '%Test%');
    DELETE FROM mapped_fields WHERE provider_id IN (SELECT id FROM providers WHERE name LIKE '%Test%');
@@ -162,5 +210,51 @@ The four dummy providers provide varying levels of canonical field coverage to t
 - All dummy providers are clearly marked with "(Test)" suffix and warning descriptions
 - All test data uses fictional company information to avoid real market data issues
 - Raw field names are based on common financial data provider API formats
-- All scripts are idempotent - safe to run multiple times without duplicating data
+- The automated system is idempotent - safe to restart backend multiple times without duplicating data
 - Field coverage percentages are approximate and designed for testing mapping scenarios
+
+## Troubleshooting for Future AI
+
+### Common Issues and Solutions
+
+1. **"no such table" errors**: Database tables not created yet
+   - Solution: Ensure `models.Base.metadata.create_all(bind=engine)` runs before initialization
+
+2. **"'column' violates not-null constraint"**: Missing required fields
+   - Solution: Check model definitions in `backend/db/models/` for required fields
+   - Always provide `country="US"` and `currency="USD"` for test companies
+
+3. **"'Type' object has no attribute 'field'"**: Wrong field name used
+   - Solution: Check actual model field names, don't assume from old code
+
+4. **"Canonical field 'X' not found"**: Field mapping name mismatch
+   - Solution: Query existing canonical fields and use exact names
+   - Example: Use `cash` not `cash_and_cash_equivalents`
+
+5. **UUID/SQLite compatibility issues**: 
+   - Solution: This system requires PostgreSQL, not SQLite for UUID fields
+
+### Debugging Commands
+
+```bash
+# Check what was created
+docker-compose exec backend python -c "
+from backend.db.session import get_db
+from backend.db.models.provider import Provider
+from backend.db.models.company import Company
+db = next(get_db())
+print('Providers:', [p.name for p in db.query(Provider).all()])
+print('Companies:', [f'{c.ticker}:{c.name}' for c in db.query(Company).all()])
+db.close()
+"
+
+# Check canonical fields
+docker-compose exec backend python -c "
+from backend.db.session import get_db
+from backend.db.models.field import CanonicalField
+db = next(get_db())
+print('Field count:', db.query(CanonicalField).count())
+print('Cash fields:', [f.name for f in db.query(CanonicalField).filter(CanonicalField.name.like('%cash%')).all()])
+db.close()
+"
+```
