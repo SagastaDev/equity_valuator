@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "source": "FinStack Global",
+    "ticker_symbol": "ACM",
+    "entity_name": "Acme Technologies Ltd.",
+    "country": "USA",
+    "currency_used": "USD",
+    "reporting_period": "Annual",
+    "shares_outstanding": 250000000
+  },
+  "reports": [
+    {
+      "fiscal_year": 2023,
+      "fiscal_month": 12,
+      "avg_month_price": 87.35,
+      "income_statement": {
+        "Total_Revenue": 125000000,
+        "Revenue": 125000000,
+        "Cost_Of_Revenue": 55000000,
+        "Gross_Profit": 70000000,
+        "Selling_General_Admin": 18000000,
+        "Operating_Income": 32000000,
+        "EBIT": 31000000,
+        "Other_Operating_Expenses": 2000000,
+        "InterestExpense": 3000000,
+        "Extraordinary_Items": 0,
+        "Non_Recurring": 0,
+        "Other_Items": 100000,
+        "Income_Before_Tax": 29000000,
+        "Income_Tax_Expense": 6000000,
+        "Net_Income": 23000000,
+        "Net_Income_Common": 22800000,
+        "Net_Income_Cont_Ops": 23000000,
+        "Total_Operating_Expenses": 93000000,
+        "Discontinued_Operations": 0,
+        "Earnings": 23000000
+      },
+      "balance_sheet": {
+        "Cash": 14000000,
+        "Net_Receivables": 15000000,
+        "Inventory": 12000000,
+        "Other_Current_Assets": 2000000,
+        "Total_Current_Assets": 43000000,
+        "Property_Plant_Equip": 45000000,
+        "Goodwill": 8000000,
+        "Intangible_Assets": 3000000,
+        "Other_Assets": 5000000,
+        "Total_Assets": 104000000,
+
+        "Accounts_Payable": 16000000,
+        "Short_Long_Term_Debt": 4000000,
+        "Other_Current_Liab": 3000000,
+        "Total_Current_Liabilities": 23000000,
+        "Long_Term_Debt": 25000000,
+        "Other_Liab": 4000000,
+        "Deferred_LTA_Charges": 1200000,
+        "Total_Liab": 53000000,
+
+        "Common_Stock": 1000000,
+        "Capital_Surplus": 12000000,
+        "Retained_Earnings": 34000000,
+        "Treasury_Stock": -4000000,
+        "Other_Stockholder_Equity": 1000000,
+        "Minority_Interest": 2000000,
+        "Total_Stockholder_Equity": 45000000,
+
+        "Net_Tangible_Assets": 36000000,
+        "Working_Capital": 20000000,
+        "Shares": 250000000
+      },
+      "cash_flow_statement": {
+        "Net_Income": 23000000,
+        "Change_To_Inventory": -200000,
+        "Change_To_AR": -300000,
+        "Depreciation": 5000000,
+        "Capital_Expenditures": -8000000,
+        "Change_To_Liabilities": 1500000,
+        "Change_To_Operating_Activities": 2000000,
+        "Cash_From_Operating": 28000000,
+        "Cash_From_Investing": -12000000,
+        "Other_CF_Investing": -1000000,
+        "Net_Borrowings": 5000000,
+        "Cash_From_Financing": -5000000,
+        "Dividends_Paid": -2000000,
+        "Repurchase_Of_Stock": -2500000,
+        "Other_CF_Financing": -500000,
+        "Change_In_Cash": 11000000,
+        "Free_Cash_Flow": 16000000,
+        "Effect_Of_Accounting_Charges": 0
+      }
+    },
+    {
+      "fiscal_year": 2022,
+      "fiscal_month": 12,
+      "avg_month_price": 79.85,
+      "income_statement": {
+        "Total_Revenue": 117000000,
+        "Revenue": 117000000,
+        "Cost_Of_Revenue": 53000000,
+        "Gross_Profit": 64000000,
+        "Selling_General_Admin": 17000000,
+        "Operating_Income": 29000000,
+        "EBIT": 28000000,
+        "Other_Operating_Expenses": 1800000,
+        "InterestExpense": 3200000,
+        "Income_Before_Tax": 26000000,
+        "Income_Tax_Expense": 5700000,
+        "Net_Income": 20100000,
+        "Net_Income_Common": 19800000,
+        "Net_Income_Cont_Ops": 20100000,
+        "Total_Operating_Expenses": 88000000,
+        "Earnings": 20100000
+      },
+      "balance_sheet": {
+        "Cash": 12000000,
+        "Net_Receivables": 14500000,
+        "Inventory": 11000000,
+        "Total_Current_Assets": 40000000,
+        "PPENet": 43000000,
+        "Goodwill": 7500000,
+        "Intangible_Assets": 2900000,
+        "Total_Assets": 100000000,
+        "Accounts_Payable": 15500000,
+        "Long_Term_Debt": 24000000,
+        "Total_Liab": 50000000,
+        "Total_Stockholder_Equity": 45000000
+      },
+      "cash_flow_statement": {
+        "Cash_From_Operating": 26000000,
+        "Cash_From_Investing": -11000000,
+        "Cash_From_Financing": -6000000,
+        "Free_Cash_Flow": 14000000
+      }
+    }
+  ]
+}

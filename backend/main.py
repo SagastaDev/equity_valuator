@@ -4,6 +4,8 @@ from backend.routes import valuation, transform, providers
 from backend.auth import routes as auth_routes
 from backend.db.base import engine
 from backend.db import models
+from backend.db.session import get_db
+from backend.db.init_data import initialize_database
 
 # Create tables
 models.Base.metadata.create_all(bind=engine)
@@ -13,6 +15,15 @@ app = FastAPI(
     description="A modular equity valuation system with data transformation capabilities",
     version="1.0.0"
 )
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database with default data on startup."""
+    db = next(get_db())
+    try:
+        initialize_database(db)
+    finally:
+        db.close()
 
 # CORS middleware
 app.add_middleware(
