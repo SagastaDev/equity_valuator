@@ -74,8 +74,7 @@ async def get_canonical_fields(
             "name": field.name,
             "display_name": field.display_name,
             "type": field.type,
-            "category": field.category,
-            "statement": field.statement,
+            "category": str(field.category),
             "is_computed": field.is_computed
         }
         for field in fields
@@ -97,32 +96,7 @@ async def get_provider_raw_fields(
         "raw_fields": sorted([field[0] for field in raw_fields])
     }
 
-@router.get("/mappings/{provider_id}/{canonical_id}")
-async def get_field_mapping(
-    provider_id: int,
-    canonical_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    """Get mapping for a specific provider and canonical field"""
-    mapping = db.query(MappedField).filter(
-        MappedField.provider_id == provider_id,
-        MappedField.canonical_id == canonical_id
-    ).first()
-    
-    if not mapping:
-        return {"raw_field_name": "", "transform_expression": None}
-    
-    return {
-        "id": mapping.id,
-        "raw_field_name": mapping.raw_field_name,
-        "transform_expression": mapping.transform_expression,
-        "company_id": mapping.company_id,
-        "start_date": mapping.start_date,
-        "end_date": mapping.end_date
-    }
-
-@router.get("/mappings/backup/{provider_id}")
+@router.get("/backup/{provider_id}")
 async def download_mappings_backup(
     provider_id: int,
     db: Session = Depends(get_db),
@@ -157,8 +131,7 @@ async def download_mappings_backup(
                 "name": canonical_field.name,
                 "display_name": canonical_field.display_name,
                 "type": canonical_field.type,
-                "category": canonical_field.category,
-                "statement": canonical_field.statement
+                "category": str(canonical_field.category)
             },
             "mapping": {
                 "raw_field_name": mapping.raw_field_name,
@@ -177,6 +150,32 @@ async def download_mappings_backup(
         media_type="application/json",
         headers={"Content-Disposition": f"attachment; filename={filename}"}
     )
+
+@router.get("/mappings/{provider_id}/{canonical_id}")
+async def get_field_mapping(
+    provider_id: int,
+    canonical_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Get mapping for a specific provider and canonical field"""
+    mapping = db.query(MappedField).filter(
+        MappedField.provider_id == provider_id,
+        MappedField.canonical_id == canonical_id
+    ).first()
+    
+    if not mapping:
+        return {"raw_field_name": "", "transform_expression": None}
+    
+    return {
+        "id": mapping.id,
+        "raw_field_name": mapping.raw_field_name,
+        "transform_expression": mapping.transform_expression,
+        "company_id": mapping.company_id,
+        "start_date": mapping.start_date,
+        "end_date": mapping.end_date
+    }
+
 
 @router.post("/test-transform")
 async def test_transform(

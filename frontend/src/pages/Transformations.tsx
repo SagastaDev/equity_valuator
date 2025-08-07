@@ -7,7 +7,6 @@ interface CanonicalField {
   display_name: string;
   type: string;
   category: string;
-  statement?: string;
   is_computed: boolean;
 }
 
@@ -181,7 +180,7 @@ const Transformations: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/transform/mappings/backup/${selectedProvider}`, {
+      const response = await fetch(`/api/transform/backup/${selectedProvider}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -329,9 +328,6 @@ const Transformations: React.FC = () => {
                 <p><strong>Code:</strong> {selectedField.code}</p>
                 <p><strong>Type:</strong> {selectedField.type}</p>
                 <p><strong>Category:</strong> {selectedField.category}</p>
-                {selectedField.statement && (
-                  <p><strong>Statement:</strong> {selectedField.statement}</p>
-                )}
               </div>
             </div>
           )}
