@@ -6,42 +6,42 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="px-4 py-6 sm:px-0">
-      <div className="border-4 border-dashed border-gray-200 rounded-lg p-8">
+      <div className="border-4 border-dashed border-gray-200 dark:border-gray-600 rounded-lg p-8 transition-colors">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">
             Welcome to Equity Valuation System
           </h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 transition-colors">
             Hello, {user?.email}! You have {user?.role} access.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Valuations</h3>
-              <p className="text-gray-600">View and manage company valuations</p>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-colors">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2 transition-colors">Valuations</h3>
+              <p className="text-gray-600 dark:text-gray-300 transition-colors">View and manage company valuations</p>
               <div className="mt-4">
                 <span className="text-2xl font-bold text-primary-600">0</span>
-                <span className="text-sm text-gray-500 ml-1">Total Valuations</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1 transition-colors">Total Valuations</span>
               </div>
             </div>
 
             {user?.role === 'admin' && (
               <>
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Data Providers</h3>
-                  <p className="text-gray-600">Manage data source providers</p>
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-colors">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2 transition-colors">Data Providers</h3>
+                  <p className="text-gray-600 dark:text-gray-300 transition-colors">Manage data source providers</p>
                   <div className="mt-4">
                     <span className="text-2xl font-bold text-primary-600">1</span>
-                    <span className="text-sm text-gray-500 ml-1">Active Providers</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400 ml-1 transition-colors">Active Providers</span>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Field Mappings</h3>
-                  <p className="text-gray-600">Configure data transformations</p>
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-colors">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2 transition-colors">Field Mappings</h3>
+                  <p className="text-gray-600 dark:text-gray-300 transition-colors">Configure data transformations</p>
                   <div className="mt-4">
                     <span className="text-2xl font-bold text-primary-600">0</span>
-                    <span className="text-sm text-gray-500 ml-1">Configured Mappings</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400 ml-1 transition-colors">Configured Mappings</span>
                   </div>
                 </div>
               </>
@@ -49,10 +49,10 @@ const Dashboard: React.FC = () => {
           </div>
 
           <div className="mt-8 text-left">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Getting Started</h2>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-medium text-blue-900 mb-2">Quick Start Guide</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 transition-colors">Getting Started</h2>
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 transition-colors">
+              <h3 className="font-medium text-blue-900 dark:text-blue-100 mb-2 transition-colors">Quick Start Guide</h3>
+              <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1 transition-colors">
                 <li>1. Navigate to Valuations to view company analysis</li>
                 {user?.role === 'admin' && (
                   <>
