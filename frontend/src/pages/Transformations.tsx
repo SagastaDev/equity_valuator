@@ -266,17 +266,17 @@ const Transformations: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400"></div>
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900 transition-colors">
       {/* Left Panel - Canonical Fields */}
-      <div className="w-1/2 bg-white shadow-lg flex flex-col border-r-2 border-gray-300">
-        <div className="p-4 border-b border-gray-200 bg-white">
-          <h1 className="text-xl font-bold text-gray-900">Canonical Fields</h1>
+      <div className="w-1/2 bg-white dark:bg-gray-800 shadow-lg flex flex-col border-r-2 border-gray-300 dark:border-gray-600 transition-colors">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 transition-colors">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">Canonical Fields</h1>
           
           {/* Search and Filter */}
           <div className="mt-4 space-y-2">
@@ -285,13 +285,13 @@ const Transformations: React.FC = () => {
               placeholder="Search fields..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
             />
             
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
             >
               {categories.map(category => (
                 <option key={category} value={category}>
@@ -303,7 +303,7 @@ const Transformations: React.FC = () => {
             <select
               value={mappingFilter}
               onChange={(e) => setMappingFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
               disabled={!selectedProvider}
             >
               <option value="all">All Fields</option>
@@ -314,26 +314,26 @@ const Transformations: React.FC = () => {
         </div>
 
         {/* Fields List - Scrollable */}
-        <div className="flex-1 overflow-y-auto bg-white">
+        <div className="flex-1 overflow-y-auto bg-white dark:bg-gray-800 transition-colors">
           {filteredFields.map((field) => (
             <div
               key={field.id}
               onClick={() => setSelectedField(field)}
-              className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
-                selectedField?.id === field.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+              className={`p-4 border-b border-gray-100 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
+                selectedField?.id === field.id ? 'bg-blue-50 dark:bg-blue-900/20 border-l-4 border-l-blue-500' : ''
               }`}
             >
               <div className="flex justify-between items-start">
                 <div>
                   <div className="flex items-center space-x-2 mb-1">
-                    <h3 className="font-medium text-gray-900">{field.display_name}</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white transition-colors">{field.display_name}</h3>
                     {selectedProvider && providerMappings.some(mapping => mapping.canonical_id === field.id) && (
                       <span className="inline-flex px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
                         Mapped
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-500">{field.name}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors">{field.name}</p>
                   <div className="mt-1 flex items-center space-x-2">
                     <span className={`inline-flex px-2 py-1 text-xs rounded-full ${
                       field.category === 'fundamental' ? 'bg-green-100 text-green-800' :
@@ -349,7 +349,7 @@ const Transformations: React.FC = () => {
                     )}
                   </div>
                 </div>
-                <span className="text-xs text-gray-400">#{field.code}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500 transition-colors">#{field.code}</span>
               </div>
             </div>
           ))}
@@ -357,14 +357,14 @@ const Transformations: React.FC = () => {
       </div>
 
       {/* Right Panel - Field Mapping */}
-      <div className="w-1/2 bg-gray-50 flex flex-col">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-white shadow-sm">
-          <h2 className="text-xl font-bold text-gray-900">Field Mapping</h2>
+      <div className="w-1/2 bg-gray-50 dark:bg-gray-900 flex flex-col transition-colors">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-600 flex justify-between items-center bg-white dark:bg-gray-800 shadow-sm transition-colors">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">Field Mapping</h2>
           <div className="flex space-x-2">
             <button
               onClick={downloadBackup}
               disabled={!selectedProvider}
-              className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               Download Backup
             </button>
@@ -374,7 +374,7 @@ const Transformations: React.FC = () => {
                   setCurrentMapping(null);
                   setSelectedField(null);
                 }}
-                className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
+                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
                 Clear
               </button>
@@ -389,16 +389,16 @@ const Transformations: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-white">
+        <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-white dark:bg-gray-800 transition-colors">
           {/* Provider Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
               Data Provider
             </label>
             <select
               value={selectedProvider || ''}
               onChange={(e) => setSelectedProvider(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
             >
               <option value="">Select a provider...</option>
               {providers.map(provider => (
@@ -411,8 +411,8 @@ const Transformations: React.FC = () => {
 
           {/* Selected Field Info */}
           {selectedField && (
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-medium text-gray-900 mb-2">Selected Field</h3>
+            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg transition-colors">
+              <h3 className="font-medium text-gray-900 dark:text-white mb-2 transition-colors">Selected Field</h3>
               <div className="space-y-1 text-sm">
                 <p><strong>Name:</strong> {selectedField.display_name}</p>
                 <p><strong>Code:</strong> {selectedField.code}</p>
@@ -425,11 +425,11 @@ const Transformations: React.FC = () => {
           {/* Mapping Configuration */}
           {selectedField && selectedProvider && (
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Field Mapping Configuration</h3>
+              <h3 className="font-medium text-gray-900 dark:text-white mb-4 transition-colors">Field Mapping Configuration</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                     Raw Field Name (from provider data)
                   </label>
                   <input
@@ -444,12 +444,12 @@ const Transformations: React.FC = () => {
                       end_date: prev?.end_date
                     }))}
                     placeholder="e.g., Total_Revenue, Cash_From_Operating"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                     Transform Expression (JSON)
                   </label>
                   <textarea
@@ -477,9 +477,9 @@ const Transformations: React.FC = () => {
     {"constant": 1000000}
   ]
 }`}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm transition-colors"
                   />
-                  <p className="mt-2 text-xs text-gray-500">
+                  <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 transition-colors">
                     Leave empty for direct mapping. Use JSON expressions for transformations.
                   </p>
                 </div>
@@ -490,8 +490,8 @@ const Transformations: React.FC = () => {
           {/* Existing Mappings Overview */}
           {selectedProvider && providerMappings.length > 0 && (
             <div className="mt-6">
-              <h3 className="font-medium text-gray-900 mb-3">Existing Field Mappings ({providerMappings.length})</h3>
-              <div className="bg-blue-50 p-4 rounded-lg max-h-64 overflow-y-auto">
+              <h3 className="font-medium text-gray-900 dark:text-white mb-3 transition-colors">Existing Field Mappings ({providerMappings.length})</h3>
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg max-h-64 overflow-y-auto transition-colors">
                 <div className="space-y-2">
                   {providerMappings.map(mapping => {
                     const canonicalField = canonicalFields.find(field => field.id === mapping.canonical_id);
@@ -512,14 +512,14 @@ const Transformations: React.FC = () => {
                             });
                           }
                         }}
-                        className="w-full text-left p-3 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-colors group"
+                        className="w-full text-left p-3 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-600 transition-colors group"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium text-gray-900 dark:text-white transition-colors">
                               {mapping.raw_field_name}
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 transition-colors">
                               → {canonicalField?.display_name || canonicalField?.name || 'Unknown Field'}
                             </div>
                             {canonicalField?.category && (
@@ -571,8 +571,8 @@ const Transformations: React.FC = () => {
           {/* Available Raw Fields Helper */}
           {selectedProvider && availableRawFields.length > 0 && (
             <div className="mt-6">
-              <h3 className="font-medium text-gray-900 mb-3">Available Raw Fields from Provider</h3>
-              <div className="bg-gray-50 p-4 rounded-lg max-h-48 overflow-y-auto">
+              <h3 className="font-medium text-gray-900 dark:text-white mb-3 transition-colors">Available Raw Fields from Provider</h3>
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg max-h-48 overflow-y-auto transition-colors">
                 <div className="grid grid-cols-2 gap-2">
                   {availableRawFields.map(fieldName => {
                     const hasMapping = providerMappings.some(mapping => mapping.raw_field_name === fieldName);
@@ -601,10 +601,10 @@ const Transformations: React.FC = () => {
                             }
                           }
                         }}
-                        className={`text-left text-xs px-2 py-1 rounded border font-mono ${
+                        className={`text-left text-xs px-2 py-1 rounded border font-mono transition-colors ${
                           hasMapping 
-                            ? 'bg-green-50 border-green-300 text-green-700 hover:bg-green-100' 
-                            : 'bg-white border-gray-300 text-gray-700 hover:bg-blue-50 hover:border-blue-300'
+                            ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/30' 
+                            : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-600'
                         }`}
                         title={hasMapping ? "This field has a mapping - click to view" : "Click to use this field name"}
                       >
@@ -616,7 +616,7 @@ const Transformations: React.FC = () => {
                     );
                   })}
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 transition-colors">
                   Click any field name to use it in your mapping. Green fields already have mappings.
                 </p>
               </div>
@@ -626,8 +626,8 @@ const Transformations: React.FC = () => {
           {/* No Mappings State */}
           {selectedProvider && providerMappings.length === 0 && (
             <div className="mt-6">
-              <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg">
-                <svg className="mx-auto h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors">
+                <svg className="mx-auto h-8 w-8 text-gray-400 dark:text-gray-500 mb-2 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <p className="font-medium">No field mappings found</p>
@@ -638,8 +638,8 @@ const Transformations: React.FC = () => {
 
           {/* No Selection State */}
           {!selectedField && (
-            <div className="text-center py-12 text-gray-500">
-              <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400 transition-colors">
+              <svg className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 mb-4 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p className="font-medium">Select a canonical field</p>
