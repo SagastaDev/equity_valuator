@@ -248,8 +248,6 @@ const Transformations: React.FC = () => {
   };
 
   const deleteMapping = async (mappingId: string) => {
-    if (!window.confirm('Are you sure you want to delete this mapping?')) return;
-
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/transform/mappings/${mappingId}`, {
@@ -267,6 +265,11 @@ const Transformations: React.FC = () => {
         // Clear current mapping if it was the one being deleted
         if (currentMapping?.id === mappingId) {
           setCurrentMapping(null);
+          setRawFieldSearch('');
+        }
+        // If we have selectedField and selectedProvider, reload the field mapping
+        if (selectedField && selectedProvider) {
+          loadFieldMapping(selectedProvider, selectedField.id);
         }
       }
     } catch (error) {
@@ -379,6 +382,18 @@ const Transformations: React.FC = () => {
             >
               Download Backup
             </button>
+            {currentMapping && currentMapping.id && (
+              <button
+                onClick={() => {
+                  if (currentMapping.id && window.confirm('Are you sure you want to delete this mapping?')) {
+                    deleteMapping(currentMapping.id);
+                  }
+                }}
+                className="px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 transition-colors"
+              >
+                Delete Mapping
+              </button>
+            )}
             {currentMapping && (
               <button
                 onClick={() => {
@@ -472,6 +487,14 @@ const Transformations: React.FC = () => {
                         setShowRawFieldDropdown(true);
                       }}
                       onFocus={() => setShowRawFieldDropdown(true)}
+                      onBlur={(e) => {
+                        // Don't close dropdown immediately if clicking on dropdown item
+                        setTimeout(() => {
+                          if (!e.relatedTarget?.closest('.raw-field-dropdown')) {
+                            setShowRawFieldDropdown(false);
+                          }
+                        }, 150);
+                      }}
                       placeholder="Search and select from available fields..."
                       className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                     />
@@ -503,7 +526,7 @@ const Transformations: React.FC = () => {
                   
                   {/* Dropdown with available fields */}
                   {showRawFieldDropdown && availableRawFields.length > 0 && (
-                    <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                    <div className="raw-field-dropdown absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                       {availableRawFields
                         .filter(field => field.toLowerCase().includes(rawFieldSearch.toLowerCase()))
                         .map(fieldName => {
