@@ -11,6 +11,7 @@ from backend.db.models.provider import Provider
 from backend.db.models.company import Industry
 from backend.db.models.field import CanonicalField, FieldCategory
 from backend.db.init_dummy_data import initialize_dummy_data
+from backend.db.init_sample_data import initialize_sample_price_data
 
 
 def init_providers(db: Session) -> None:
@@ -123,6 +124,10 @@ def initialize_database(db: Session) -> None:
         # Initialize dummy data for development (disabled in production)
         enable_dummy = os.getenv("ENABLE_DUMMY_DATA", "true").lower() == "true"
         initialize_dummy_data(db, enable_dummy_data=enable_dummy)
+        
+        # Initialize sample price data for development (separate from dummy data)
+        enable_sample_data = os.getenv("ENABLE_SAMPLE_DATA", "true").lower() == "true"
+        initialize_sample_price_data(db, enable_sample_data=enable_sample_data)
         
         db.commit()
         print("Database initialization completed successfully")

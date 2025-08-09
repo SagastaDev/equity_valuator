@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, Date, Float, Enum
+from sqlalchemy import Column, Integer, ForeignKey, Date, Float, Enum, Index
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 import uuid
@@ -28,3 +28,24 @@ class PriceData(Base):
     # Relationships
     company = relationship("Company", back_populates="price_data")
     provider = relationship("Provider", back_populates="price_data")
+
+    # Database indexes for performance optimization
+    __table_args__ = (
+        # Composite index for company + date queries (most common for charts)
+        Index('idx_price_company_date', 'company_id', 'date'),
+        
+        # Composite index for company + provider + date (provider-specific queries)
+        Index('idx_price_company_provider_date', 'company_id', 'provider_id', 'date'),
+        
+        # Index for date range queries across all companies
+        Index('idx_price_date', 'date'),
+        
+        # Index for provider-specific queries
+        Index('idx_price_provider_date', 'provider_id', 'date'),
+        
+        # Unique constraint to prevent duplicate records
+        Index('idx_price_unique_record', 'company_id', 'provider_id', 'date', 'period_type', unique=True),
+        
+        # Enable table extension for avoiding conflicts
+        {'extend_existing': True}
+    )
