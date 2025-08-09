@@ -33,6 +33,9 @@ const Transformations: React.FC = () => {
   const [selectedProvider, setSelectedProvider] = useState<number | null>(null);
   const [currentMapping, setCurrentMapping] = useState<FieldMapping | null>(null);
   const [availableRawFields, setAvailableRawFields] = useState<string[]>([]);
+  const [rawFieldSearch, setRawFieldSearch] = useState('');
+  const [showRawFieldDropdown, setShowRawFieldDropdown] = useState(false);
+  const [isActivelySearching, setIsActivelySearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -68,6 +71,17 @@ const Transformations: React.FC = () => {
       loadFieldMapping(selectedProvider, selectedField.id);
     }
   }, [selectedField, selectedProvider]);
+
+  // Sync rawFieldSearch with currentMapping
+  useEffect(() => {
+    if (currentMapping?.raw_field_name) {
+      setRawFieldSearch(currentMapping.raw_field_name);
+      setIsActivelySearching(false); // Reset searching state when loading a mapping
+    } else {
+      setRawFieldSearch('');
+      setIsActivelySearching(false);
+    }
+  }, [currentMapping]);
 
   useEffect(() => {
     if (selectedProvider) {
@@ -162,6 +176,12 @@ const Transformations: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setCurrentMapping(data);
+      } else {
+        // If no mapping exists, initialize empty mapping
+        setCurrentMapping({
+          raw_field_name: '',
+          transform_expression: null
+        });
       }
     } catch (error) {
       console.error('Error loading field mapping:', error);
@@ -237,8 +257,6 @@ const Transformations: React.FC = () => {
   };
 
   const deleteMapping = async (mappingId: string) => {
-    if (!window.confirm('Are you sure you want to delete this mapping?')) return;
-
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/transform/mappings/${mappingId}`, {
@@ -256,6 +274,11 @@ const Transformations: React.FC = () => {
         // Clear current mapping if it was the one being deleted
         if (currentMapping?.id === mappingId) {
           setCurrentMapping(null);
+          setRawFieldSearch('');
+        }
+        // If we have selectedField and selectedProvider, reload the field mapping
+        if (selectedField && selectedProvider) {
+          loadFieldMapping(selectedProvider, selectedField.id);
         }
       }
     } catch (error) {
@@ -368,6 +391,18 @@ const Transformations: React.FC = () => {
             >
               Download Backup
             </button>
+            {currentMapping && currentMapping.id && (
+              <button
+                onClick={() => {
+                  if (currentMapping.id && window.confirm('Are you sure you want to delete this mapping?')) {
+                    deleteMapping(currentMapping.id);
+                  }
+                }}
+                className="px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 transition-colors"
+              >
+                Delete Mapping
+              </button>
+            )}
             {currentMapping && (
               <button
                 onClick={() => {
@@ -412,13 +447,33 @@ const Transformations: React.FC = () => {
           {/* Selected Field Info */}
           {selectedField && (
             <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg transition-colors">
-              <h3 className="font-medium text-gray-900 dark:text-white mb-2 transition-colors">Selected Field</h3>
+              <h3 className="font-medium text-gray-900 dark:text-white mb-2 transition-colors dark:!text-white">Selected Field</h3>
               <div className="space-y-1 text-sm">
-                <p><strong>Name:</strong> {selectedField.display_name}</p>
-                <p><strong>Code:</strong> {selectedField.code}</p>
-                <p><strong>Type:</strong> {selectedField.type}</p>
-                <p><strong>Category:</strong> {selectedField.category}</p>
+                <p className="text-gray-900 dark:text-white"><strong>Name:</strong> {selectedField.display_name}</p>
+                <p className="text-gray-900 dark:text-white"><strong>Code:</strong> {selectedField.code}</p>
+                <p className="text-gray-900 dark:text-white"><strong>Type:</strong> {selectedField.type}</p>
+                <p className="text-gray-900 dark:text-white"><strong>Category:</strong> {selectedField.category}</p>
               </div>
+              
+              {/* Show existing mapping status */}
+              {selectedProvider && (
+                <div className="mt-3 pt-3 border-t border-gray-300 dark:border-gray-600">
+                  {(() => {
+                    const existingMapping = providerMappings.find(m => m.canonical_id === selectedField.id);
+                    return existingMapping ? (
+                      <div className="text-sm">
+                        <p className="text-green-600 dark:text-green-400 font-medium mb-1">✓ Field Already Mapped</p>
+                        <p className="text-gray-900 dark:text-white"><strong>Raw Field:</strong> {existingMapping.raw_field_name}</p>
+                        {existingMapping.transform_expression && (
+                          <p className="text-gray-900 dark:text-white"><strong>Has Formula:</strong> Yes</p>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-orange-600 dark:text-orange-400 text-sm font-medium">⚠️ No mapping exists for this field</p>
+                    );
+                  })()}
+                </div>
+              )}
             </div>
           )}
 
@@ -428,24 +483,154 @@ const Transformations: React.FC = () => {
               <h3 className="font-medium text-gray-900 dark:text-white mb-4 transition-colors">Field Mapping Configuration</h3>
               
               <div className="space-y-4">
-                <div>
+                <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                     Raw Field Name (from provider data)
                   </label>
-                  <input
-                    type="text"
-                    value={currentMapping?.raw_field_name || ''}
-                    onChange={(e) => setCurrentMapping(prev => ({
-                      raw_field_name: e.target.value,
-                      transform_expression: prev?.transform_expression,
-                      id: prev?.id,
-                      company_id: prev?.company_id,
-                      start_date: prev?.start_date,
-                      end_date: prev?.end_date
-                    }))}
-                    placeholder="e.g., Total_Revenue, Cash_From_Operating"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={rawFieldSearch}
+                      onChange={(e) => {
+                        const newValue = e.target.value;
+                        setRawFieldSearch(newValue);
+                        setShowRawFieldDropdown(true);
+                        setIsActivelySearching(true);
+                        // Update currentMapping to reflect the new raw field name while preserving other fields
+                        setCurrentMapping(prev => ({
+                          raw_field_name: newValue,
+                          transform_expression: prev?.transform_expression,
+                          id: prev?.id,
+                          company_id: prev?.company_id,
+                          start_date: prev?.start_date,
+                          end_date: prev?.end_date
+                        }));
+                      }}
+                      onFocus={() => setShowRawFieldDropdown(true)}
+                      onBlur={(e) => {
+                        // Don't close dropdown immediately if clicking on dropdown item
+                        setTimeout(() => {
+                          if (!e.relatedTarget?.closest('.raw-field-dropdown')) {
+                            setShowRawFieldDropdown(false);
+                          }
+                        }, 150);
+                      }}
+                      placeholder="Search and select from available fields..."
+                      className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const isOpening = !showRawFieldDropdown;
+                        setShowRawFieldDropdown(isOpening);
+                        if (isOpening) {
+                          // When opening dropdown, clear search to show all options
+                          setRawFieldSearch('');
+                          setIsActivelySearching(false);
+                        }
+                      }}
+                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Display current selection */}
+                  {currentMapping?.raw_field_name && (
+                    <div className="mt-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-md">
+                      <p className="text-sm text-blue-800 dark:text-blue-200">
+                        <strong>Selected:</strong> {currentMapping.raw_field_name}
+                      </p>
+                      {/* Show if this field is already mapped */}
+                      {selectedProvider && providerMappings.find(m => m.raw_field_name === currentMapping.raw_field_name && m.canonical_id !== selectedField?.id) && (
+                        <p className="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                          ⚠️ This raw field is already mapped to another canonical field
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Dropdown with available fields */}
+                  {showRawFieldDropdown && availableRawFields.length > 0 && (
+                    <div className="raw-field-dropdown absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                      {availableRawFields
+                        .filter(field => {
+                          // If not actively searching, show all fields
+                          if (!isActivelySearching) return true;
+                          // If actively searching, filter by search term
+                          return field.toLowerCase().includes(rawFieldSearch.toLowerCase());
+                        })
+                        .map(fieldName => {
+                          const hasMapping = providerMappings.some(mapping => mapping.raw_field_name === fieldName);
+                          const isMappedToDifferentField = hasMapping && !providerMappings.some(mapping => 
+                            mapping.raw_field_name === fieldName && mapping.canonical_id === selectedField?.id
+                          );
+                          return (
+                            <div
+                              key={fieldName}
+                              onClick={() => {
+                                setRawFieldSearch(fieldName);
+                                setIsActivelySearching(false);
+                                setCurrentMapping(prev => ({
+                                  raw_field_name: fieldName,
+                                  transform_expression: prev?.transform_expression,
+                                  id: prev?.id,
+                                  company_id: prev?.company_id,
+                                  start_date: prev?.start_date,
+                                  end_date: prev?.end_date
+                                }));
+                                setShowRawFieldDropdown(false);
+                              }}
+                              className={`px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 border-b border-gray-100 dark:border-gray-600 last:border-b-0 ${
+                                hasMapping ? 'bg-green-50 dark:bg-green-900/20' : ''
+                              }`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className={`text-sm font-mono ${
+                                  isMappedToDifferentField 
+                                    ? 'text-orange-600 dark:text-orange-400' 
+                                    : hasMapping 
+                                      ? 'text-green-700 dark:text-green-300'
+                                      : 'text-gray-900 dark:text-white'
+                                }`}>
+                                  {fieldName}
+                                </span>
+                                <div className="flex items-center space-x-1">
+                                  {hasMapping && (
+                                    <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-800">
+                                      {isMappedToDifferentField ? 'Mapped elsewhere' : 'Mapped here'}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              {isMappedToDifferentField && (
+                                <p className="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                                  Already mapped to another canonical field
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      {availableRawFields.filter(field => {
+                        if (!isActivelySearching) return true;
+                        return field.toLowerCase().includes(rawFieldSearch.toLowerCase());
+                      }).length === 0 && (
+                        <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                          {isActivelySearching ? 'No fields match your search' : 'No raw fields available'}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Click outside to close dropdown */}
+                  {showRawFieldDropdown && (
+                    <div 
+                      className="fixed inset-0 z-5" 
+                      onClick={() => setShowRawFieldDropdown(false)}
+                    />
+                  )}
                 </div>
 
                 <div>

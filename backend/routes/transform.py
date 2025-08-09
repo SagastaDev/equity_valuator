@@ -100,14 +100,23 @@ async def get_provider_raw_fields(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Get all available raw field names from a provider's data"""
-    raw_fields = db.query(RawDataEntry.raw_field_name).filter(
+    """Get all available raw field names from a provider's data and mappings"""
+    # Get raw field names from actual data entries
+    raw_data_fields = db.query(RawDataEntry.raw_field_name).filter(
         RawDataEntry.provider_id == provider_id
     ).distinct().all()
     
+    # Get raw field names from existing mappings (in case data was cleaned up but mappings exist)
+    mapping_fields = db.query(MappedField.raw_field_name).filter(
+        MappedField.provider_id == provider_id
+    ).distinct().all()
+    
+    # Combine both lists and remove duplicates
+    all_fields = set([field[0] for field in raw_data_fields] + [field[0] for field in mapping_fields])
+    
     return {
         "provider_id": provider_id,
-        "raw_fields": sorted([field[0] for field in raw_fields])
+        "raw_fields": sorted(list(all_fields))
     }
 
 @router.get("/backup/{provider_id}")
