@@ -9,6 +9,7 @@ const Layout: React.FC = () => {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Companies', href: '/companies' },
     { name: 'Valuations', href: '/valuations' },
     ...(user?.role === 'admin' ? [
       { name: 'Providers', href: '/providers' },
@@ -31,7 +32,7 @@ const Layout: React.FC = () => {
                     key={item.name}
                     to={item.href}
                     className={`${
-                      location.pathname === item.href
+                      location.pathname === item.href || (item.href === '/companies' && location.pathname.startsWith('/companies'))
                         ? 'border-primary-500 text-gray-900 dark:text-white'
                         : 'border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-white'
                     } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors`}

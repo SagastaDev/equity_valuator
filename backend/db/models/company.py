@@ -6,6 +6,7 @@ from backend.db.base import Base
 
 class Industry(Base):
     __tablename__ = "industries"
+    __table_args__ = {'extend_existing': True}
     
     id = Column(Integer, primary_key=True, index=True)
     code = Column(String, unique=True, index=True)
@@ -17,6 +18,7 @@ class Industry(Base):
 
 class Company(Base):
     __tablename__ = "companies"
+    __table_args__ = {'extend_existing': True}
     
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     ticker = Column(String, unique=True, index=True, nullable=False)

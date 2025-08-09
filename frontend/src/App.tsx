@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard';
 import Providers from './pages/Providers';
 import Transformations from './pages/Transformations';
 import Valuations from './pages/Valuations';
+import Companies from './pages/Companies';
+import CompanyChart from './pages/CompanyChart';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
               <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
                 <Route index element={<Navigate to="/dashboard" replace />} />
                 <Route path="dashboard" element={<Dashboard />} />
+                <Route path="companies" element={<Companies />} />
+                <Route path="companies/:ticker/chart" element={<CompanyChart />} />
                 <Route path="providers" element={<Providers />} />
                 <Route path="transformations" element={<Transformations />} />
                 <Route path="valuations" element={<Valuations />} />
