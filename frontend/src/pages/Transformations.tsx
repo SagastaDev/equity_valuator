@@ -423,7 +423,7 @@ const Transformations: React.FC = () => {
           {/* Selected Field Info */}
           {selectedField && (
             <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg transition-colors">
-              <h3 className="font-medium text-gray-900 dark:text-white mb-2 transition-colors">Selected Field</h3>
+              <h3 className="font-medium text-gray-900 dark:text-white mb-2 transition-colors dark:!text-white">Selected Field</h3>
               <div className="space-y-1 text-sm">
                 <p className="text-gray-900 dark:text-white"><strong>Name:</strong> {selectedField.display_name}</p>
                 <p className="text-gray-900 dark:text-white"><strong>Code:</strong> {selectedField.code}</p>
