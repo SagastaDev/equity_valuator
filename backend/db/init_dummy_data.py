@@ -137,29 +137,20 @@ def _create_field_mappings(db: Session, provider_id: int, mappings: dict):
 
 
 def init_finstack_provider(db: Session) -> int:
-    """Initialize FinStack Global test provider."""
+    """Initialize FinStack Global test provider (mappings only, no fake companies)."""
     provider_id = _create_test_provider(db, "FinStack Global (Test)")
     
-    company_id = _create_test_company(db, "ACM", "Acme Technologies Ltd.", "TECH")
-    
-    # Load and process data
-    data = _load_json_data("MockupData01.json")
-    _create_raw_data_entries(db, provider_id, company_id, data)
+    # Note: Provider created without fake companies - use real companies from Kaggle data
+    # Field mappings will be added when real company data is processed
     
     return provider_id
 
 
 def init_alphafin_provider(db: Session) -> int:
-    """Initialize AlphaFinance Pro test provider."""
+    """Initialize AlphaFinance Pro test provider (mappings only, no fake companies)."""
     provider_id = _create_test_provider(db, "AlphaFinance Pro (Test)")
     
-    company_id = _create_test_company(db, "TECH", "TechCorp Industries Inc.", "TECH")
-    
-    # Load and process data
-    data = _load_json_data("MockupData02.json")
-    _create_raw_data_entries(db, provider_id, company_id, data)
-    
-    # Create field mappings for AlphaFinance Pro
+    # Create field mappings for AlphaFinance Pro (keep mappings for real data processing)
     mappings = {
         "revenues": "total_revenue",
         "cogs": "cost_of_revenue",
@@ -182,14 +173,8 @@ def init_alphafin_provider(db: Session) -> int:
 
 
 def init_marketinsight_provider(db: Session) -> int:
-    """Initialize MarketInsight Analytics test provider."""
+    """Initialize MarketInsight Analytics test provider (mappings only, no fake companies)."""
     provider_id = _create_test_provider(db, "MarketInsight Analytics (Test)")
-    
-    company_id = _create_test_company(db, "SOFT", "SoftwareDev Solutions Ltd.", "TECH")
-    
-    # Load and process data
-    data = _load_json_data("MockupData03.json")
-    _create_raw_data_entries(db, provider_id, company_id, data)
     
     # Create field mappings for MarketInsight Analytics (nested structure)
     mappings = {
@@ -211,14 +196,8 @@ def init_marketinsight_provider(db: Session) -> int:
 
 
 def init_datastream_provider(db: Session) -> int:
-    """Initialize DataStream Financial test provider."""
+    """Initialize DataStream Financial test provider (mappings only, no fake companies)."""
     provider_id = _create_test_provider(db, "DataStream Financial (Test)")
-    
-    company_id = _create_test_company(db, "INNV", "Innovation Dynamics Corp.", "TECH")
-    
-    # Load and process data
-    data = _load_json_data("MockupData04.json")
-    _create_raw_data_entries(db, provider_id, company_id, data)
     
     # Create field mappings for DataStream Financial (hierarchical structure)
     mappings = {
@@ -356,8 +335,9 @@ def initialize_dummy_data(db: Session, enable_dummy_data: bool = True) -> None:
         for name, provider_id in providers:
             print(f"  - {name} (ID: {provider_id})")
         
-        print("Test companies created: ACM, TECH, SOFT, INNV")
-        print("WARNING: Remove dummy data before production deployment")
+        print("NOTE: Providers created with field mappings only - no fake companies")
+        print("Use real companies from Kaggle data (AAPL, MSFT, GOOGL, NVDA, LMT)")
+        print("WARNING: Remove dummy providers before production deployment")
         
     except Exception as e:
         print(f"Error initializing dummy data: {e}")
