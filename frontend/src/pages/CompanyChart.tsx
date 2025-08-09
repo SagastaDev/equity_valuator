@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { companiesService, CompanySummary, PriceData } from '../services/companies';
+import PriceChart from '../components/PriceChart';
 
 const CompanyChart: React.FC = () => {
   const { ticker } = useParams<{ ticker: string }>();
@@ -249,46 +250,23 @@ const CompanyChart: React.FC = () => {
         </div>
       )}
 
-      {/* Chart Placeholder */}
+      {/* Price Chart */}
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-        {priceData.length > 0 ? (
-          <div className="h-96 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-gray-400 mb-4">
-                <svg className="mx-auto h-24 w-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <p className="text-xl text-gray-500 dark:text-gray-400 mb-2">
-                Chart Ready - {priceData.length} Data Points
-              </p>
-              <p className="text-gray-400 dark:text-gray-500">
-                Chart visualization will be implemented with a charting library like Chart.js or D3
-              </p>
-              <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                Date Range: {companiesService.formatDate(priceData[0].date)} - {companiesService.formatDate(priceData[priceData.length - 1].date)}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="h-96 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-gray-400 mb-4">
-                <svg className="mx-auto h-24 w-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.232 18.5c-.77.833.192 2.5 1.732 2.5z" />
-                </svg>
-              </div>
-              <p className="text-xl text-gray-500 dark:text-gray-400 mb-2">
-                No Price Data Available
-              </p>
-              <p className="text-gray-400 dark:text-gray-500">
-                Historical price data will appear here once loaded from data providers
-              </p>
-            </div>
-          </div>
-        )}
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            Price History
+          </h3>
+          {priceData.length > 0 && (
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {priceData.length} data points • {companiesService.formatDate(priceData[priceData.length - 1].date)} - {companiesService.formatDate(priceData[0].date)}
+            </p>
+          )}
+        </div>
+        <PriceChart 
+          priceData={priceData} 
+          chartType={chartType}
+          height={400}
+        />
       </div>
 
       {/* Recent Price Data Table */}
