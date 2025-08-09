@@ -35,6 +35,7 @@ const Transformations: React.FC = () => {
   const [availableRawFields, setAvailableRawFields] = useState<string[]>([]);
   const [rawFieldSearch, setRawFieldSearch] = useState('');
   const [showRawFieldDropdown, setShowRawFieldDropdown] = useState(false);
+  const [isActivelySearching, setIsActivelySearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -75,8 +76,10 @@ const Transformations: React.FC = () => {
   useEffect(() => {
     if (currentMapping?.raw_field_name) {
       setRawFieldSearch(currentMapping.raw_field_name);
+      setIsActivelySearching(false); // Reset searching state when loading a mapping
     } else {
       setRawFieldSearch('');
+      setIsActivelySearching(false);
     }
   }, [currentMapping]);
 
@@ -173,6 +176,12 @@ const Transformations: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setCurrentMapping(data);
+      } else {
+        // If no mapping exists, initialize empty mapping
+        setCurrentMapping({
+          raw_field_name: '',
+          transform_expression: null
+        });
       }
     } catch (error) {
       console.error('Error loading field mapping:', error);
@@ -483,8 +492,19 @@ const Transformations: React.FC = () => {
                       type="text"
                       value={rawFieldSearch}
                       onChange={(e) => {
-                        setRawFieldSearch(e.target.value);
+                        const newValue = e.target.value;
+                        setRawFieldSearch(newValue);
                         setShowRawFieldDropdown(true);
+                        setIsActivelySearching(true);
+                        // Update currentMapping to reflect the new raw field name while preserving other fields
+                        setCurrentMapping(prev => ({
+                          raw_field_name: newValue,
+                          transform_expression: prev?.transform_expression,
+                          id: prev?.id,
+                          company_id: prev?.company_id,
+                          start_date: prev?.start_date,
+                          end_date: prev?.end_date
+                        }));
                       }}
                       onFocus={() => setShowRawFieldDropdown(true)}
                       onBlur={(e) => {
@@ -500,7 +520,15 @@ const Transformations: React.FC = () => {
                     />
                     <button
                       type="button"
-                      onClick={() => setShowRawFieldDropdown(!showRawFieldDropdown)}
+                      onClick={() => {
+                        const isOpening = !showRawFieldDropdown;
+                        setShowRawFieldDropdown(isOpening);
+                        if (isOpening) {
+                          // When opening dropdown, clear search to show all options
+                          setRawFieldSearch('');
+                          setIsActivelySearching(false);
+                        }
+                      }}
                       className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -528,7 +556,12 @@ const Transformations: React.FC = () => {
                   {showRawFieldDropdown && availableRawFields.length > 0 && (
                     <div className="raw-field-dropdown absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                       {availableRawFields
-                        .filter(field => field.toLowerCase().includes(rawFieldSearch.toLowerCase()))
+                        .filter(field => {
+                          // If not actively searching, show all fields
+                          if (!isActivelySearching) return true;
+                          // If actively searching, filter by search term
+                          return field.toLowerCase().includes(rawFieldSearch.toLowerCase());
+                        })
                         .map(fieldName => {
                           const hasMapping = providerMappings.some(mapping => mapping.raw_field_name === fieldName);
                           const isMappedToDifferentField = hasMapping && !providerMappings.some(mapping => 
@@ -539,6 +572,7 @@ const Transformations: React.FC = () => {
                               key={fieldName}
                               onClick={() => {
                                 setRawFieldSearch(fieldName);
+                                setIsActivelySearching(false);
                                 setCurrentMapping(prev => ({
                                   raw_field_name: fieldName,
                                   transform_expression: prev?.transform_expression,
@@ -579,9 +613,12 @@ const Transformations: React.FC = () => {
                             </div>
                           );
                         })}
-                      {availableRawFields.filter(field => field.toLowerCase().includes(rawFieldSearch.toLowerCase())).length === 0 && (
+                      {availableRawFields.filter(field => {
+                        if (!isActivelySearching) return true;
+                        return field.toLowerCase().includes(rawFieldSearch.toLowerCase());
+                      }).length === 0 && (
                         <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
-                          No fields match your search
+                          {isActivelySearching ? 'No fields match your search' : 'No raw fields available'}
                         </div>
                       )}
                     </div>
