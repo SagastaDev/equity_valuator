@@ -3,7 +3,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # Database
-    database_url: str = "sqlite:///./equity_valuation.db"
+    database_url: str = "postgresql://postgres:postgres@db:5432/equity_valuation"
     
     # Security
     secret_key: str = "your-secret-key-change-in-production"

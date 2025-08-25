@@ -40,18 +40,42 @@ The test suite is organized as follows:
 
 ```
 backend/tests/
-├── __init__.py           # Test package initialization
-├── conftest.py          # Shared test fixtures and configuration
-└── test_health.py       # Health endpoint tests
+├── __init__.py              # Test package initialization
+├── conftest.py             # Shared test fixtures and configuration
+├── test_health.py          # Health endpoint tests
+├── api/                    # API integration tests
+│   ├── __init__.py
+│   └── v1/                 # API version 1 tests
+│       ├── __init__.py
+│       ├── test_companies.py    # Companies API tests
+│       ├── test_providers.py    # Providers API tests
+│       ├── test_transform.py    # Transform API tests
+│       └── test_valuation.py    # Valuation API tests
+└── services/               # Service layer unit tests
+    ├── __init__.py
+    ├── test_transform_engine.py    # Transform engine tests
+    └── test_formula_evaluator.py  # Formula evaluator tests
 ```
 
 ## Current Test Coverage
 
-The initial test suite includes:
+The comprehensive test suite includes:
 
 1. **Health Check Tests** (`test_health.py`):
    - `test_health_check()` - Validates `/health` endpoint returns status "healthy" 
    - `test_root_endpoint()` - Validates root `/` endpoint returns API message
+
+2. **API Integration Tests** (`api/v1/`):
+   - **Companies API** (`test_companies.py`): Complete CRUD operations, authentication, search, pagination, price data endpoints, and admin-only data ingestion
+   - **Providers API** (`test_providers.py`): Provider management endpoints with admin permissions
+   - **Valuation API** (`test_valuation.py`): Valuation CRUD operations with proper data validation
+   - **Transform API** (`test_transform.py`): Field mapping operations, canonical fields, raw fields, transform testing, and backup functionality
+
+3. **Service Layer Unit Tests** (`services/`):
+   - **Transform Engine** (`test_transform_engine.py`): Mathematical operations, functions, nested expressions, error handling, and validation
+   - **Formula Evaluator** (`test_formula_evaluator.py`): Data transformation, computed fields calculation, and error recovery
+
+**Coverage Statistics**: 105+ test cases covering both happy path and error scenarios, with comprehensive authentication testing and role-based access control validation.
 
 ## Test Configuration
 
@@ -88,24 +112,49 @@ docker-compose up -d backend
 Tests should run within the Docker container to avoid permission issues with the host system.
 
 ### Database Issues
-The current test setup uses FastAPI's TestClient without complex database interactions for basic endpoint testing.
+The test setup uses PostgreSQL with isolated test database (`equity_valuation_test`) to ensure tests don't interfere with development data. Database fixtures handle automatic cleanup.
 
 ## Adding New Tests
 
 When adding new tests:
 
-1. Create test files in `backend/tests/` with the prefix `test_`
-2. Import necessary fixtures from `conftest.py`
-3. Follow the naming convention `test_<functionality>`
-4. Use the `client` fixture for HTTP endpoint testing
+1. **API Tests**: Create files in `backend/tests/api/v1/` with the prefix `test_`
+2. **Service Tests**: Create files in `backend/tests/services/` with the prefix `test_`
+3. Import necessary fixtures from `conftest.py` (client, auth_headers, admin_headers, test_user, etc.)
+4. Follow the naming convention `test_<functionality>`
+5. Use appropriate fixtures for testing scenarios
 
-Example:
+**API Test Example:**
 ```python
-def test_new_endpoint(client):
-    response = client.get("/api/new-endpoint")
+def test_new_endpoint_success(client, auth_headers):
+    response = client.get("/api/new-endpoint", headers=auth_headers)
     assert response.status_code == 200
     assert response.json()["status"] == "success"
+
+def test_new_endpoint_unauthorized(client):
+    response = client.get("/api/new-endpoint")
+    assert response.status_code == 401
 ```
+
+**Service Test Example:**
+```python
+from unittest.mock import Mock
+from backend.services.my_service import MyService
+
+def test_service_calculation():
+    service = MyService()
+    result = service.calculate_value(100, 0.1)
+    assert result == 110.0
+```
+
+**Available Fixtures:**
+- `client`: FastAPI test client
+- `auth_headers`: Authentication headers for regular user
+- `admin_headers`: Authentication headers for admin user
+- `test_user`, `admin_user`: Test user objects
+- `test_company`, `test_provider`: Test data objects
+- `canonical_fields`: Test canonical field objects
+- `db_session`: Database session for test data setup
 
 ## Integration with CI/CD
 
