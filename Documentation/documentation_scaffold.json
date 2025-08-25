@@ -1,0 +1,181 @@
+{
+  "project_overview": {
+    "name": "Equity Valuation System",
+    "description": "A modular equity valuation system with data transformation capabilities",
+    "architecture": "FastAPI backend with React TypeScript frontend, PostgreSQL database",
+    "deployment": "Docker containerized"
+  },
+  "diataxis_structure": {
+    "tutorials": [
+      {
+        "name": "Getting Started with Equity Valuation System",
+        "target": "new_users",
+        "outcome": "Complete setup and first valuation calculation",
+        "file": "tutorials/getting_started.md"
+      },
+      {
+        "name": "Creating Custom Data Providers",
+        "target": "developers",
+        "outcome": "Implement and integrate a new data provider",
+        "file": "tutorials/custom_data_provider.md"
+      },
+      {
+        "name": "Building Valuation Models",
+        "target": "analysts",
+        "outcome": "Create and deploy custom valuation models",
+        "file": "tutorials/building_valuation_models.md"
+      }
+    ],
+    "how_to_guides": [
+      {
+        "name": "Add New Data Source",
+        "problem": "Integrate additional financial data providers",
+        "file": "how_to/add_data_source.md"
+      },
+      {
+        "name": "Configure Field Mappings",
+        "problem": "Map raw data fields to canonical schema",
+        "file": "how_to/configure_field_mappings.md"
+      },
+      {
+        "name": "Deploy to Production",
+        "problem": "Deploy system in production environment",
+        "file": "how_to/deploy_production.md"
+      },
+      {
+        "name": "Backup and Restore Data",
+        "problem": "Create data backups and restore procedures",
+        "file": "how_to/backup_restore.md"
+      }
+    ],
+    "explanations": [
+      {
+        "name": "System Architecture Overview",
+        "concept": "High-level system design and component interactions",
+        "file": "explanations/architecture_overview.md"
+      },
+      {
+        "name": "Data Transformation Pipeline",
+        "concept": "How raw financial data becomes standardized canonical data",
+        "file": "explanations/data_transformation_pipeline.md"
+      },
+      {
+        "name": "Valuation Engine Design",
+        "concept": "Financial modeling and calculation framework",
+        "file": "explanations/valuation_engine_design.md"
+      },
+      {
+        "name": "Security Model",
+        "concept": "Authentication, authorization, and data protection",
+        "file": "explanations/security_model.md"
+      }
+    ],
+    "reference": [
+      {
+        "name": "API Reference",
+        "type": "api_documentation",
+        "file": "reference/api_reference.md"
+      },
+      {
+        "name": "Database Schema",
+        "type": "data_model",
+        "file": "reference/database_schema.md"
+      },
+      {
+        "name": "Configuration Reference",
+        "type": "configuration",
+        "file": "reference/configuration.md"
+      },
+      {
+        "name": "Data Provider Interface",
+        "type": "interface_specification",
+        "file": "reference/data_provider_interface.md"
+      }
+    ]
+  },
+  "module_documentation": {
+    "backend": {
+      "main_modules": [
+        {
+          "name": "auth",
+          "description": "Authentication and authorization system",
+          "readme": "backend/auth/README.md",
+          "components": ["models", "routes", "utils"]
+        },
+        {
+          "name": "db",
+          "description": "Database models, connections, and initialization",
+          "readme": "backend/db/README.md",
+          "components": ["models", "session", "init_data"]
+        },
+        {
+          "name": "data_providers",
+          "description": "Pluggable data provider system",
+          "readme": "backend/data_providers/README.md",
+          "components": ["base_provider", "kaggle_provider", "provider_factory"]
+        },
+        {
+          "name": "routes",
+          "description": "FastAPI route handlers",
+          "readme": "backend/routes/README.md",
+          "components": ["valuation", "transform", "providers", "companies"]
+        },
+        {
+          "name": "services",
+          "description": "Business logic and data processing services",
+          "readme": "backend/services/README.md",
+          "components": ["transform_engine", "formula_evaluator", "financial_data_service"]
+        },
+        {
+          "name": "schemas",
+          "description": "Pydantic data validation schemas",
+          "readme": "backend/schemas/README.md",
+          "components": ["valuation", "provider", "mapping"]
+        }
+      ]
+    },
+    "frontend": {
+      "main_modules": [
+        {
+          "name": "components",
+          "description": "Reusable React components",
+          "readme": "frontend/src/components/README.md",
+          "components": ["Layout", "ProtectedRoute", "ThemeToggle", "PriceChart"]
+        },
+        {
+          "name": "pages",
+          "description": "Main application pages and views",
+          "readme": "frontend/src/pages/README.md",
+          "components": ["Dashboard", "Companies", "Valuations", "Providers", "Login"]
+        },
+        {
+          "name": "services",
+          "description": "API client services",
+          "readme": "frontend/src/services/README.md",
+          "components": ["auth", "companies", "providers"]
+        },
+        {
+          "name": "contexts",
+          "description": "React context providers",
+          "readme": "frontend/src/contexts/README.md",
+          "components": ["AuthContext", "ThemeContext"]
+        }
+      ]
+    }
+  },
+  "inline_documentation": {
+    "docstring_targets": [
+      "backend/data_providers/base_provider.py",
+      "backend/services/transform_engine.py", 
+      "backend/services/formula_evaluator.py",
+      "backend/db/models/*.py",
+      "backend/routes/*.py"
+    ],
+    "comment_targets": [
+      "Complex business logic in services",
+      "Database initialization scripts",
+      "Frontend component logic",
+      "Configuration files"
+    ]
+  }
+}
